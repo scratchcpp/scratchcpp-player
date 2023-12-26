@@ -1,0 +1,3 @@
+[submodule "scratchcpp-render"]
+	path = scratchcpp-render
+	url = https://github.com/scratchcpp/scratchcpp-render

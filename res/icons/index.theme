@@ -1,0 +1,9 @@
+[Icon Theme]
+Name=scratchcpp
+Comment=ScratchCPP icon theme
+
+Directories=32x32
+
+[32x32]
+Size=32
+Type=Scalable
