@@ -7,8 +7,8 @@ import ScratchCPP.UiComponents
 import ScratchCPP.Render
 
 Window {
-    minimumWidth: layout.implicitWidth
-    minimumHeight: layout.implicitHeight
+    minimumWidth: layout.implicitWidth + layout.anchors.margins * 2
+    minimumHeight: layout.implicitHeight + layout.anchors.margins * 2
 	visible: true
     title: "ScratchCPP"
     color: Material.background
@@ -18,10 +18,10 @@ Window {
     ColumnLayout {
         id: layout
         anchors.fill: parent
+        anchors.margins: 10
 
         RowLayout {
             Layout.fillWidth: true
-            Layout.topMargin: 10
 
             CustomToolButton {
                 icon.name: "green_flag"
