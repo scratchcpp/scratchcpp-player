@@ -64,6 +64,8 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
+[![ScratchCPP screenshot][product-screenshot]](https://github.com/scratchcpp/scratchcpp-player)
+
 **ScratchCPP** is an ongoing project to build a fast and lightweight Scratch project player.
 It might not be as fast as TurboWarp (yet), but the main goal is to develop a project player
 that is **lightweight**.
@@ -157,3 +159,4 @@ Distributed under the GNU General Public License. See [LICENSE](LICENSE) for mor
 [issues-url]: https://github.com/scratchcpp/scratchcpp-player/issues
 [license-shield]: https://img.shields.io/github/license/scratchcpp/scratchcpp-player.svg?style=for-the-badge
 [license-url]: https://github.com/scratchcpp/scratchcpp-player/blob/master/LICENSE
+[product-screenshot]: res/screenshot.png
