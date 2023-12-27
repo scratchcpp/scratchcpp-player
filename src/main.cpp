@@ -4,7 +4,6 @@
 #include <QQmlApplicationEngine>
 #include <QQuickStyle>
 #include <QIcon>
-#include <QDirIterator>
 
 int main(int argc, char *argv[])
 {
@@ -14,10 +13,6 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
     engine.addImportPath(":/");
-
-    QDirIterator it(":/ScratchCPP");
-    while (it.hasNext())
-        qDebug() << it.next();
 
     const QUrl url(u"qrc:/ScratchCPP/main.qml"_qs);
     QObject::connect(
