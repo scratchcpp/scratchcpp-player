@@ -7,6 +7,8 @@
 
 int main(int argc, char *argv[])
 {
+    qputenv("QSG_RENDER_LOOP", "basic");
+
     QGuiApplication app(argc, argv);
     QQuickStyle::setStyle("Material");
     QIcon::setThemeName("scratchcpp");
