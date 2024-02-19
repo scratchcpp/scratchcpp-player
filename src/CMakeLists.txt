@@ -8,4 +8,5 @@ qt_add_qml_module(appscratchcpp-player
     QML_FILES main.qml
 )
 
+add_subdirectory(global)
 add_subdirectory(uicomponents)
