@@ -9,5 +9,3 @@ qt_add_qml_module(appscratchcpp-player
 )
 
 add_subdirectory(uicomponents)
-
-target_link_libraries(appscratchcpp-player PRIVATE scratchcpp-uicomponents)
