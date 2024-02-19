@@ -1,3 +1,6 @@
 [submodule "scratchcpp-render"]
 	path = scratchcpp-render
 	url = https://github.com/scratchcpp/scratchcpp-render
+[submodule "thirdparty/googletest"]
+	path = thirdparty/googletest
+	url = https://github.com/google/googletest/
