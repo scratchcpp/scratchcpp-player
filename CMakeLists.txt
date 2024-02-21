@@ -10,6 +10,7 @@ option(SCRATCHCPP_PLAYER_BUILD_UNIT_TESTS "Build unit tests" ON)
 find_package(Qt6 6.6 COMPONENTS Quick QuickControls2 REQUIRED)
 
 if (SCRATCHCPP_PLAYER_BUILD_UNIT_TESTS)
+    enable_testing()
     find_package(Qt6 6.6 COMPONENTS Test REQUIRED)
 endif()
 

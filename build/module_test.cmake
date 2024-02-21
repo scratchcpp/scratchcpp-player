@@ -21,4 +21,5 @@ if (SCRATCHCPP_PLAYER_BUILD_UNIT_TESTS)
     )
 
     target_include_directories(${TARGET} PRIVATE ${MODULE_SRC_DIR})
+    gtest_discover_tests(${TARGET})
 endif()
