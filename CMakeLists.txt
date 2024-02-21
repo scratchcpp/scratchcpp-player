@@ -5,7 +5,13 @@ project(scratchcpp-player VERSION 0.1 LANGUAGES CXX)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+option(SCRATCHCPP_PLAYER_BUILD_UNIT_TESTS "Build unit tests" ON)
+
 find_package(Qt6 6.6 COMPONENTS Quick QuickControls2 REQUIRED)
+
+if (SCRATCHCPP_PLAYER_BUILD_UNIT_TESTS)
+    find_package(Qt6 6.6 COMPONENTS Test REQUIRED)
+endif()
 
 add_subdirectory(src)
 add_subdirectory(res)
