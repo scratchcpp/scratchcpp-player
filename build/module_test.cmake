@@ -14,6 +14,7 @@ if (SCRATCHCPP_PLAYER_BUILD_UNIT_TESTS)
 
     target_link_libraries(
       ${TARGET}
+      ${MODULE}
       GTest::gtest_main
       GTest::gmock_main
       Qt6::Gui
