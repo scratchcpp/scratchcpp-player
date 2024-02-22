@@ -28,6 +28,10 @@ TEST(ModularityTest, Exports)
     ioc()->registerExport(another);
     ASSERT_EQ(ioc()->resolve<ModuleExportInterfaceMock>(), mock);
     ASSERT_EQ(ioc()->resolve<FakeExport>(), another);
+
+    ioc()->reset();
+    ASSERT_EQ(ioc()->resolve<ModuleExportInterfaceMock>(), nullptr);
+    ASSERT_EQ(ioc()->resolve<FakeExport>(), nullptr);
 }
 
 TEST(ModularityTest, Inject)
@@ -41,4 +45,6 @@ TEST(ModularityTest, Inject)
     auto dep2 = std::make_shared<FakeDependency>();
     fake->setdep(dep2);
     ASSERT_EQ(fake->dep(), dep2);
+
+    ioc()->reset();
 }

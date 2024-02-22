@@ -48,6 +48,8 @@ class ModulesIoC
             m_exports.insert(iface);
         }
 
+        void reset() { m_exports.clear(); }
+
         template<class I>
         std::shared_ptr<I> resolve() const
         {
