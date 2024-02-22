@@ -1,6 +1,8 @@
 set(MODULE global)
 set(MODULE_URI Global)
 set(MODULE_SRC
+    globalmodule.cpp
+    globalmodule.h
     modularity/ioc.h
     modularity/modulesioc.h
     modularity/imoduleexportinterface.h

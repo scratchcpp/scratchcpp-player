@@ -1,5 +1,6 @@
 set(MODULE_TEST_SRC
     modularity.cpp
+    setup.cpp
     fakeexport.h
     fakedependency.h
     mocks/moduleexportinterfacemock.h
