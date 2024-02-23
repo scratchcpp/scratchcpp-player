@@ -1,8 +1,6 @@
 if (SCRATCHCPP_PLAYER_BUILD_UNIT_TESTS)
     set(TARGET ${MODULE}_test)
     set(TEST_MAIN_SRC ${PROJECT_SOURCE_DIR}/test/main.cpp)
-    set(GTEST_DIR thirdparty/googletest)
-    add_subdirectory(${PROJECT_SOURCE_DIR}/${GTEST_DIR} ${CMAKE_CURRENT_BINARY_DIR}/${GTEST_DIR})
 
     include(GoogleTest)
 

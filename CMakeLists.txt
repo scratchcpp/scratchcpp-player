@@ -10,6 +10,8 @@ option(SCRATCHCPP_PLAYER_BUILD_UNIT_TESTS "Build unit tests" ON)
 find_package(Qt6 6.6 COMPONENTS Quick QuickControls2 REQUIRED)
 
 if (SCRATCHCPP_PLAYER_BUILD_UNIT_TESTS)
+    set(GTEST_DIR thirdparty/googletest)
+    add_subdirectory(${PROJECT_SOURCE_DIR}/${GTEST_DIR} ${CMAKE_CURRENT_BINARY_DIR}/${GTEST_DIR})
     enable_testing()
     find_package(Qt6 6.6 COMPONENTS Test REQUIRED)
 endif()
