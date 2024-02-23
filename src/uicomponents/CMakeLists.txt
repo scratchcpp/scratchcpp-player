@@ -5,5 +5,15 @@ set(MODULE_QML_FILES
     CustomToolButton.qml
     HoverToolTip.qml
 )
+set(MODULE_SRC
+    menubarmodel.cpp
+    menubarmodel.h
+    menumodel.cpp
+    menumodel.h
+    menuitemmodel.cpp
+    menuitemmodel.h
+)
 
 include(${PROJECT_SOURCE_DIR}/build/module.cmake)
+
+add_subdirectory(test)
