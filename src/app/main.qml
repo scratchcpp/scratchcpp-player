@@ -3,10 +3,12 @@
 import QtQuick
 import QtQuick.Controls.Material
 import QtQuick.Layouts
+import ScratchCPP
 import ScratchCPP.UiComponents
 import ScratchCPP.Render
 
-Window {
+ApplicationWindow {
+    id: root
     minimumWidth: layout.implicitWidth + layout.anchors.margins * 2
     minimumHeight: layout.implicitHeight + layout.anchors.margins * 2
 	visible: true
@@ -14,6 +16,11 @@ Window {
     color: Material.background
     Material.accent: "orange"
     Material.theme: Material.Dark
+
+    menuBar: CustomMenuBar {
+        width: root.width
+        model: AppMenuBar.model
+    }
 
     ColumnLayout {
         id: layout
