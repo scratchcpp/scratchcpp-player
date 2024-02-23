@@ -4,6 +4,8 @@ qt_add_executable(${APP_TARGET}
     main.cpp
     app.cpp
     app.h
+    appmenubar.cpp
+    appmenubar.h
 )
 
 qt_add_qml_module(${APP_TARGET}
