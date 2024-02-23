@@ -16,6 +16,7 @@ if (SCRATCHCPP_PLAYER_BUILD_UNIT_TESTS)
       GTest::gtest_main
       GTest::gmock_main
       Qt6::Gui
+      Qt6::Qml
       Qt6::Test
     )
 
