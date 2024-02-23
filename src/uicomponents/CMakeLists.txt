@@ -4,6 +4,10 @@ set(MODULE_QML_FILES
     CustomButton.qml
     CustomToolButton.qml
     HoverToolTip.qml
+    CustomMenuBar.qml
+    CustomMenu.qml
+    CustomMenuItem.qml
+    CustomMenuSeparator.qml
 )
 set(MODULE_SRC
     menubarmodel.cpp
