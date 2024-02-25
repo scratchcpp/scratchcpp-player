@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include <QGuiApplication>
+#include <QApplication>
 #include <QQmlApplicationEngine>
 #include <QQuickStyle>
 #include <QIcon>
@@ -23,7 +23,7 @@ int App::run(int argc, char **argv)
     qputenv("QSG_RENDER_LOOP", "basic");
 
     // Set up application object
-    QGuiApplication app(argc, argv);
+    QApplication app(argc, argv);
     QCoreApplication::setOrganizationDomain("scratchcpp.github.io");
     QCoreApplication::setOrganizationName("ScratchCPP");
     QCoreApplication::setApplicationName("ScratchCPP");
