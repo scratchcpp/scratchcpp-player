@@ -10,7 +10,7 @@ import ScratchCPP.Render
 ApplicationWindow {
     id: root
     minimumWidth: layout.implicitWidth + layout.anchors.margins * 2
-    minimumHeight: layout.implicitHeight + layout.anchors.margins * 2
+    minimumHeight: menuBar.height + layout.implicitHeight + layout.anchors.margins * 2
 	visible: true
     title: "ScratchCPP"
     color: Material.background
