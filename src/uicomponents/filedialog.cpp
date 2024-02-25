@@ -2,6 +2,7 @@
 
 #include <QFileInfo>
 #include <QFileDialog>
+#include <QStandardPaths>
 
 #include "filedialog.h"
 
@@ -73,7 +74,7 @@ void FileDialog::getOpenFileContent(void)
 #ifdef Q_OS_WASM
     QFileDialog::getOpenFileContent(QString(), fileContentReadyLambda);
 #else
-    QString fileName = QFileDialog::getOpenFileName(nullptr, QString(), QString(), getFilters());
+    QString fileName = QFileDialog::getOpenFileName(nullptr, QString(), QStandardPaths::standardLocations(QStandardPaths::HomeLocation)[0], getFilters());
 
     if (fileName != "") {
         QFile file(fileName);
@@ -86,7 +87,7 @@ void FileDialog::getOpenFileContent(void)
 
 QString FileDialog::getOpenFileName() const
 {
-    QFileDialog dialog(nullptr, QString(), QString(), getFilters());
+    QFileDialog dialog(nullptr, QString(), QStandardPaths::standardLocations(QStandardPaths::HomeLocation)[0], getFilters());
     dialog.setFileMode(QFileDialog::AnyFile);
     dialog.setAcceptMode(QFileDialog::AcceptOpen);
     dialog.setDefaultSuffix(m_defaultSuffix);
@@ -99,7 +100,7 @@ QString FileDialog::getOpenFileName() const
 
 QString FileDialog::getSaveFileName() const
 {
-    QFileDialog dialog(nullptr, QString(), QString(), getFilters());
+    QFileDialog dialog(nullptr, QString(), QStandardPaths::standardLocations(QStandardPaths::HomeLocation)[0], getFilters());
     dialog.setFileMode(QFileDialog::AnyFile);
     dialog.setAcceptMode(QFileDialog::AcceptSave);
     dialog.setDefaultSuffix(m_defaultSuffix);
