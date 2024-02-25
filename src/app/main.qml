@@ -20,6 +20,15 @@ ApplicationWindow {
     menuBar: CustomMenuBar {
         width: root.width
         model: AppMenuBar.model
+
+        Connections {
+            target: AppMenuBar
+
+            function onFileOpened(fileName) {
+                urlField.text = fileName;
+                player.fileName = fileName;
+            }
+        }
     }
 
     ColumnLayout {
