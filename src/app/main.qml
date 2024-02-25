@@ -10,7 +10,7 @@ import ScratchCPP.Render
 ApplicationWindow {
     id: root
     minimumWidth: layout.implicitWidth + layout.anchors.margins * 2
-    minimumHeight: layout.implicitHeight + layout.anchors.margins * 2
+    minimumHeight: menuBar.height + layout.implicitHeight + layout.anchors.margins * 2
 	visible: true
     title: "ScratchCPP"
     color: Material.background
@@ -20,6 +20,15 @@ ApplicationWindow {
     menuBar: CustomMenuBar {
         width: root.width
         model: AppMenuBar.model
+
+        Connections {
+            target: AppMenuBar
+
+            function onFileOpened(fileName) {
+                urlField.text = fileName;
+                player.fileName = fileName;
+            }
+        }
     }
 
     ColumnLayout {

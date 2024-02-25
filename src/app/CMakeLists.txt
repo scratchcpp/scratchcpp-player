@@ -34,8 +34,7 @@ set_target_properties(${APP_TARGET} PROPERTIES
 target_compile_definitions(${APP_TARGET}
     PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 target_compile_definitions(${APP_TARGET} PRIVATE BUILD_VERSION="${CMAKE_PROJECT_VERSION}")
-target_link_libraries(${APP_TARGET}
-    PRIVATE Qt6::Quick Qt6::QuickControls2)
+target_link_libraries(${APP_TARGET} PRIVATE ${QT_LIBS})
 target_include_directories(${APP_TARGET} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/..)
 target_include_directories(${APP_TARGET} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../global)
 

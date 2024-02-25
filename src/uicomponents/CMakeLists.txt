@@ -16,6 +16,8 @@ set(MODULE_SRC
     menumodel.h
     menuitemmodel.cpp
     menuitemmodel.h
+    filedialog.cpp
+    filedialog.h
 )
 
 include(${PROJECT_SOURCE_DIR}/build/module.cmake)

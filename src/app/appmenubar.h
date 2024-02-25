@@ -6,6 +6,8 @@
 
 Q_MOC_INCLUDE("uicomponents/menubarmodel.h")
 
+class QTemporaryFile;
+
 namespace scratchcpp
 {
 
@@ -13,8 +15,11 @@ namespace uicomponents
 {
 
 class MenuBarModel;
+class MenuModel;
+class MenuItemModel;
+class FileDialog;
 
-}
+} // namespace uicomponents
 
 class AppMenuBar : public QObject
 {
@@ -30,9 +35,19 @@ class AppMenuBar : public QObject
 
     signals:
         void modelChanged();
+        void fileOpened(const QString &fileName);
 
     private:
+        void openFile();
+#ifdef Q_OS_WASM
+        void loadOpenedFile(const QByteArray &content);
+#endif
+
         uicomponents::MenuBarModel *m_model = nullptr;
+        uicomponents::MenuModel *m_fileMenu = nullptr;
+        uicomponents::MenuItemModel *m_openFileItem = nullptr;
+        uicomponents::FileDialog *m_openFileDialog = nullptr;
+        QTemporaryFile *m_tmpFile = nullptr;
 };
 
 } // namespace scratchcpp

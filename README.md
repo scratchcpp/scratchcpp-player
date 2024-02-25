@@ -103,7 +103,7 @@ When the project loads, click on the green flag button to run it.
 ## Roadmap
 
 - [x] Loading from URL
-- [ ] Loading from a local file (path to the file can be used as a URL until this is implemented)
+- [x] Loading from a local file
 - [x] Green flag button
 - [x] Stop button
 - [ ] Turbo mode
