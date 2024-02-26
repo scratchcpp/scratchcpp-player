@@ -10,6 +10,8 @@ set(MODULE_QML_FILES
     CustomMenuSeparator.qml
 )
 set(MODULE_SRC
+    uicomponentsmodule.cpp
+    uicomponentsmodule.h
     menubarmodel.cpp
     menubarmodel.h
     menumodel.cpp
