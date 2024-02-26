@@ -6,6 +6,7 @@ import QtQuick.Layouts
 import ScratchCPP
 import ScratchCPP.UiComponents
 import ScratchCPP.Render
+import ScratchCPP.Keyboard
 
 ApplicationWindow {
     id: root
@@ -40,12 +41,17 @@ ApplicationWindow {
             Layout.fillWidth: true
 
             CustomToolButton {
+                id: greenFlagButton
                 icon.name: "green_flag"
                 icon.color: "transparent"
                 onClicked: {
-                    player.stop()
-                    player.start()
-                    player.forceActiveFocus(Qt.TabFocusReason);
+                    if (KeyboardInfo.keyboardModifiers() === Qt.ShiftModifier)
+                        AppMenuBar.turboMode = !AppMenuBar.turboMode
+                    else {
+                        player.stop()
+                        player.start()
+                        player.forceActiveFocus(Qt.TabFocusReason);
+                    }
                 }
             }
 
@@ -54,6 +60,22 @@ ApplicationWindow {
                 icon.color: "transparent"
                 onClicked: {
                     player.stop()
+                }
+            }
+
+            IconLabel {
+                icon.name: "turbo"
+                icon.color: "transparent"
+                text: qsTr("Turbo Mode")
+                color: Qt.rgba(1, 0.67, 0.1, 1)
+                visible: AppMenuBar.turboMode
+
+                font {
+                    // Reuse the font from the green flag button
+                    family: greenFlagButton.font.family
+                    capitalization: Font.MixedCase
+                    pointSize: 8
+                    bold: true
                 }
             }
 
@@ -78,6 +100,7 @@ ApplicationWindow {
             activeFocusOnTab: true
             focus: true
             spriteFencing: false
+            turboMode: AppMenuBar.turboMode
             stageRect.border.color: Material.theme == Material.Dark ? Qt.rgba(1, 1, 1, 0.15) : Qt.rgba(0, 0, 0, 0.15)
             stageRect.border.width: 5
         }
