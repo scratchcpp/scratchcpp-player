@@ -10,5 +10,6 @@ qt_add_resources(
     PREFIX "/icons/scratchcpp/32x32"
     FILES
         green_flag.svg
-	stop.svg
+        stop.svg
+        turbo.svg
 )
