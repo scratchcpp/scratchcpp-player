@@ -45,7 +45,7 @@ AppMenuBar::AppMenuBar(QObject *parent) :
     m_turboModeItem->setCheckable(true);
     m_turboModeItem->setChecked(false);
     m_editMenu->addItem(m_turboModeItem);
-    connect(m_turboModeItem, &MenuItemModel::checkedChanged, this, [this]() { setTurboMode(m_turboModeItem->checked()); });
+    connect(m_turboModeItem, &MenuItemModel::checkedChanged, this, &AppMenuBar::turboModeChanged);
 }
 
 MenuBarModel *AppMenuBar::model() const
@@ -84,14 +84,13 @@ void AppMenuBar::loadOpenedFile(const QByteArray &content)
 
 bool AppMenuBar::turboMode() const
 {
-    return m_turboMode;
+    return m_turboModeItem->checked();
 }
 
 void AppMenuBar::setTurboMode(bool newTurboMode)
 {
-    if (m_turboMode == newTurboMode)
+    if (m_turboModeItem->checked() == newTurboMode)
         return;
 
-    m_turboMode = newTurboMode;
-    emit turboModeChanged();
+    m_turboModeItem->setChecked(newTurboMode);
 }

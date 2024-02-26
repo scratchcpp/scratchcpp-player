@@ -57,7 +57,6 @@ class AppMenuBar : public QObject
 
         uicomponents::MenuModel *m_editMenu = nullptr;
         uicomponents::MenuItemModel *m_turboModeItem = nullptr;
-        bool m_turboMode = false;
 };
 
 } // namespace scratchcpp
