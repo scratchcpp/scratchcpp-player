@@ -6,6 +6,7 @@ import QtQuick.Layouts
 import ScratchCPP
 import ScratchCPP.UiComponents
 import ScratchCPP.Render
+import ScratchCPP.Keyboard
 
 ApplicationWindow {
     id: root
@@ -44,9 +45,13 @@ ApplicationWindow {
                 icon.name: "green_flag"
                 icon.color: "transparent"
                 onClicked: {
-                    player.stop()
-                    player.start()
-                    player.forceActiveFocus(Qt.TabFocusReason);
+                    if (KeyboardInfo.keyboardModifiers() === Qt.ShiftModifier)
+                        AppMenuBar.turboMode = !AppMenuBar.turboMode
+                    else {
+                        player.stop()
+                        player.start()
+                        player.forceActiveFocus(Qt.TabFocusReason);
+                    }
                 }
             }
 
