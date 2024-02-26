@@ -21,7 +21,7 @@ AppMenuBar::AppMenuBar(QObject *parent) :
 
     // File menu
     m_fileMenu = new MenuModel(m_model);
-    m_fileMenu->setTitle(tr("File"));
+    m_fileMenu->setTitle(tr("&File"));
     m_model->addMenu(m_fileMenu);
 
     // File -> Open
@@ -33,6 +33,19 @@ AppMenuBar::AppMenuBar(QObject *parent) :
 #ifdef Q_OS_WASM
     connect(m_openFileDialog, &FileDialog::fileContentReady, this, &AppMenuBar::loadOpenedFile);
 #endif
+
+    // Edit menu
+    m_editMenu = new MenuModel(m_model);
+    m_editMenu->setTitle(tr("&Edit"));
+    m_model->addMenu(m_editMenu);
+
+    // Edit -> Turbo mode
+    m_turboModeItem = new MenuItemModel(m_editMenu);
+    m_turboModeItem->setText(tr("Turbo Mode"));
+    m_turboModeItem->setCheckable(true);
+    m_turboModeItem->setChecked(false);
+    m_editMenu->addItem(m_turboModeItem);
+    connect(m_turboModeItem, &MenuItemModel::checkedChanged, this, [this]() { setTurboMode(m_turboModeItem->checked()); });
 }
 
 MenuBarModel *AppMenuBar::model() const
@@ -68,3 +81,17 @@ void AppMenuBar::loadOpenedFile(const QByteArray &content)
         qWarning("Failed to create temporary file.");
 }
 #endif
+
+bool AppMenuBar::turboMode() const
+{
+    return m_turboMode;
+}
+
+void AppMenuBar::setTurboMode(bool newTurboMode)
+{
+    if (m_turboMode == newTurboMode)
+        return;
+
+    m_turboMode = newTurboMode;
+    emit turboModeChanged();
+}
