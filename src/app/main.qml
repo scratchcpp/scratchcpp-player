@@ -45,12 +45,20 @@ ApplicationWindow {
                 icon.name: "green_flag"
                 icon.color: "transparent"
                 onClicked: {
-                    if (KeyboardInfo.keyboardModifiers() === Qt.ShiftModifier)
-                        AppMenuBar.turboMode = !AppMenuBar.turboMode
-                    else {
-                        player.stop()
-                        player.start()
-                        player.forceActiveFocus(Qt.TabFocusReason);
+                    switch (KeyboardInfo.keyboardModifiers()) {
+                        case Qt.ShiftModifier:
+                            AppMenuBar.turboMode = !AppMenuBar.turboMode
+                            break;
+
+                        case Qt.AltModifier:
+                            AppMenuBar.fps60Mode = !AppMenuBar.fps60Mode
+                            break;
+
+                        default:
+                            player.stop()
+                            player.start()
+                            player.forceActiveFocus(Qt.TabFocusReason);
+                            break;
                     }
                 }
             }
