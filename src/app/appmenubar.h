@@ -28,6 +28,7 @@ class AppMenuBar : public QObject
         QML_SINGLETON
         Q_PROPERTY(uicomponents::MenuBarModel *model READ model NOTIFY modelChanged)
         Q_PROPERTY(bool turboMode READ turboMode WRITE setTurboMode NOTIFY turboModeChanged)
+        Q_PROPERTY(bool fps60Mode READ fps60Mode WRITE setFps60Mode NOTIFY fps60ModeChanged)
 
     public:
         explicit AppMenuBar(QObject *parent = nullptr);
@@ -37,10 +38,14 @@ class AppMenuBar : public QObject
         bool turboMode() const;
         void setTurboMode(bool newTurboMode);
 
+        bool fps60Mode() const;
+        void setFps60Mode(bool newFps60Mode);
+
     signals:
         void modelChanged();
         void fileOpened(const QString &fileName);
         void turboModeChanged();
+        void fps60ModeChanged();
 
     private:
         void openFile();
@@ -57,6 +62,7 @@ class AppMenuBar : public QObject
 
         uicomponents::MenuModel *m_editMenu = nullptr;
         uicomponents::MenuItemModel *m_turboModeItem = nullptr;
+        uicomponents::MenuItemModel *m_fps60ModeItem = nullptr;
 };
 
 } // namespace scratchcpp

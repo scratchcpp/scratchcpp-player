@@ -79,6 +79,14 @@ ApplicationWindow {
                 }
             }
 
+            Label {
+                text: qsTr("%1 FPS").arg(player.fps)
+                color: Qt.rgba(1, 0.67, 0.1, 1)
+                visible: player.fps !== 30
+                font.pointSize: 8
+                font.bold: true
+            }
+
             TextField {
                 id: urlField
                 Layout.fillWidth: true
@@ -101,6 +109,7 @@ ApplicationWindow {
             focus: true
             spriteFencing: false
             turboMode: AppMenuBar.turboMode
+            fps: AppMenuBar.fps60Mode ? 60 : 30
             stageRect.border.color: Material.theme == Material.Dark ? Qt.rgba(1, 1, 1, 0.15) : Qt.rgba(0, 0, 0, 0.15)
             stageRect.border.width: 5
         }
