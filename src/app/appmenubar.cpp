@@ -46,6 +46,14 @@ AppMenuBar::AppMenuBar(QObject *parent) :
     m_turboModeItem->setChecked(false);
     m_editMenu->addItem(m_turboModeItem);
     connect(m_turboModeItem, &MenuItemModel::checkedChanged, this, &AppMenuBar::turboModeChanged);
+
+    // Edit -> 60 FPS mode
+    m_fps60ModeItem = new MenuItemModel(m_editMenu);
+    m_fps60ModeItem->setText(tr("60 FPS Mode"));
+    m_fps60ModeItem->setCheckable(true);
+    m_fps60ModeItem->setChecked(false);
+    m_editMenu->addItem(m_fps60ModeItem);
+    connect(m_fps60ModeItem, &MenuItemModel::checkedChanged, this, &AppMenuBar::fps60ModeChanged);
 }
 
 MenuBarModel *AppMenuBar::model() const
@@ -93,4 +101,18 @@ void AppMenuBar::setTurboMode(bool newTurboMode)
         return;
 
     m_turboModeItem->setChecked(newTurboMode);
+}
+
+bool AppMenuBar::fps60Mode() const
+{
+    return m_fps60ModeItem->checked();
+}
+
+void AppMenuBar::setFps60Mode(bool newFps60Mode)
+{
+    if (m_fps60ModeItem->checked() == newFps60Mode)
+        return;
+
+    m_fps60ModeItem->setChecked(newFps60Mode);
+    emit fps60ModeChanged();
 }
