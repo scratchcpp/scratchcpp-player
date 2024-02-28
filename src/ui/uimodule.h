@@ -13,6 +13,8 @@ class UiModule : public modularity::IModuleSetup
         UiModule();
 
         std::string moduleName() const override;
+
+        void registerExports() override;
 };
 
 } // namespace scratchcpp::ui
