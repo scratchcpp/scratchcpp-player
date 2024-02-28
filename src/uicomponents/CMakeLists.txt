@@ -9,6 +9,7 @@ set(MODULE_QML_FILES
     CustomMenu.qml
     CustomMenuItem.qml
     CustomMenuSeparator.qml
+    internal/CustomDialogButtonBox.qml
 )
 set(MODULE_SRC
     uicomponentsmodule.cpp
