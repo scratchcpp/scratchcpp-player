@@ -4,6 +4,7 @@ import QtQuick
 import QtQuick.Controls.Material
 import QtQuick.Layouts
 import ScratchCPP
+import ScratchCPP.Ui
 import ScratchCPP.UiComponents
 import ScratchCPP.Render
 import ScratchCPP.Keyboard
@@ -17,6 +18,7 @@ ApplicationWindow {
     color: Material.background
     Material.accent: "orange"
     Material.theme: Material.Dark
+    onActiveFocusItemChanged: UiEngine.activeFocusItem = activeFocusItem
 
     menuBar: CustomMenuBar {
         width: root.width
