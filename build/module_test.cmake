@@ -15,8 +15,7 @@ if (SCRATCHCPP_PLAYER_BUILD_UNIT_TESTS)
       ${MODULE}
       GTest::gtest_main
       GTest::gmock_main
-      Qt6::Gui
-      Qt6::Qml
+      ${QT_LIBS}
       Qt6::Test
     )
 
