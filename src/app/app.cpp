@@ -65,7 +65,7 @@ int App::run(int argc, char **argv)
     QQmlApplicationEngine engine;
     engine.addImportPath(":/");
 
-    const QUrl url(u"qrc:/ScratchCPP/main.qml"_qs);
+    const QUrl url(u"qrc:/ScratchCPP/qml/main.qml"_qs);
     QObject::connect(
         &engine,
         &QQmlApplicationEngine::objectCreated,
