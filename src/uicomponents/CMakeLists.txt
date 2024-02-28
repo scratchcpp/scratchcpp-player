@@ -3,6 +3,7 @@ set(MODULE_URI UiComponents)
 set(MODULE_QML_FILES
     CustomButton.qml
     CustomToolButton.qml
+    AccentButton.qml
     HoverToolTip.qml
     CustomMenuBar.qml
     CustomMenu.qml
