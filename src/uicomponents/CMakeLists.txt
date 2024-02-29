@@ -22,6 +22,8 @@ set(MODULE_SRC
     menuitemmodel.h
     filedialog.cpp
     filedialog.h
+    dialogview.cpp
+    dialogview.h
     internal/quickwindow.cpp
     internal/quickwindow.h
 )
