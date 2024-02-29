@@ -124,7 +124,6 @@ ApplicationWindow {
             Layout.minimumHeight: stageHeight
             activeFocusOnTab: true
             focus: true
-            spriteFencing: false
             turboMode: AppMenuBar.turboMode
             fps: AppMenuBar.fps60Mode ? 60 : 30
         }
