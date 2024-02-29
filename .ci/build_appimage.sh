@@ -12,8 +12,8 @@ if [[ "$1" != "0" ]]; then
 fi
 
 repo_dir=$(pwd)
-mkdir -p $RUNNER_WORKSPACE/build
-cd $RUNNER_WORKSPACE/build
+mkdir -p appimage_build
+cd appimage_build
 
 # Build linuxdeploy
 sudo apt install -y build-essential g++ pkg-config curl wget libpng-dev libjpeg-dev zsync desktop-file-utils libxcb-cursor0 &&
@@ -87,4 +87,4 @@ esac
 
 ./linuxdeploy --appdir AppDir -e src/app/${executable_name} -i $repo_dir/res/${executable_name}.png -d $repo_dir/release/appimage.desktop --plugin qt --output appimage
 
-cp *.AppImage* $repo_dir
+mv *.AppImage* $repo_dir
