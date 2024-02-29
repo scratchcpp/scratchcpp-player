@@ -106,7 +106,7 @@ When the project loads, click on the green flag button to run it.
 - [x] Loading from a local file
 - [x] Green flag button
 - [x] Stop button
-- [ ] Turbo mode
+- [x] Turbo mode
 - [ ] FPS options
 - [ ] Stage size options
 - [ ] HQ pen
