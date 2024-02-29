@@ -127,8 +127,6 @@ ApplicationWindow {
             spriteFencing: false
             turboMode: AppMenuBar.turboMode
             fps: AppMenuBar.fps60Mode ? 60 : 30
-            stageRect.border.color: Material.theme == Material.Dark ? Qt.rgba(1, 1, 1, 0.15) : Qt.rgba(0, 0, 0, 0.15)
-            stageRect.border.width: 5
         }
     }
 }
