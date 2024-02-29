@@ -27,7 +27,7 @@ int App::run(int argc, char **argv)
     QApplication app(argc, argv);
     QCoreApplication::setOrganizationDomain("scratchcpp.github.io");
     QCoreApplication::setOrganizationName("ScratchCPP");
-    QCoreApplication::setApplicationName("ScratchCPP");
+    QCoreApplication::setApplicationName("ScratchCPP Player");
     QCoreApplication::setApplicationVersion(BUILD_VERSION);
 
     // Set style and icon theme name
