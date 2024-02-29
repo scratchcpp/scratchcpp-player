@@ -5,6 +5,7 @@
 #include <QQuickStyle>
 #include <QIcon>
 #include <cassert>
+#include <scratchcpp-render/scratchcpp-render.h>
 
 #include "app.h"
 #include "globalmodule.h"
@@ -21,7 +22,8 @@ App::App()
 
 int App::run(int argc, char **argv)
 {
-    qputenv("QSG_RENDER_LOOP", "basic");
+    // Init scratchcpp-render
+    scratchcpprender::init();
 
     // Set up application object
     QApplication app(argc, argv);
