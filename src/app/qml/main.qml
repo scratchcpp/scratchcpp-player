@@ -4,9 +4,11 @@ import QtQuick
 import QtQuick.Controls.Material
 import QtQuick.Layouts
 import ScratchCPP
+import ScratchCPP.Ui
 import ScratchCPP.UiComponents
 import ScratchCPP.Render
 import ScratchCPP.Keyboard
+import "dialogs"
 
 ApplicationWindow {
     id: root
@@ -17,6 +19,7 @@ ApplicationWindow {
     color: Material.background
     Material.accent: "orange"
     Material.theme: Material.Dark
+    onActiveFocusItemChanged: UiEngine.activeFocusItem = activeFocusItem
 
     menuBar: CustomMenuBar {
         width: root.width
@@ -29,8 +32,14 @@ ApplicationWindow {
                 urlField.text = fileName;
                 player.fileName = fileName;
             }
+
+            function onAboutAppTriggered() {
+                aboutDialog.open();
+            }
         }
     }
+
+    AboutDialog { id: aboutDialog }
 
     ColumnLayout {
         id: layout

@@ -9,6 +9,7 @@
 #include "app.h"
 #include "globalmodule.h"
 #include "modularity/ioc.h"
+#include "ui/internal/uiengine.h"
 
 using namespace scratchcpp;
 using namespace scratchcpp::modularity;
@@ -65,7 +66,7 @@ int App::run(int argc, char **argv)
     QQmlApplicationEngine engine;
     engine.addImportPath(":/");
 
-    const QUrl url(u"qrc:/ScratchCPP/main.qml"_qs);
+    const QUrl url(u"qrc:/ScratchCPP/qml/main.qml"_qs);
     QObject::connect(
         &engine,
         &QQmlApplicationEngine::objectCreated,
@@ -76,6 +77,8 @@ int App::run(int argc, char **argv)
         },
         Qt::QueuedConnection);
     engine.load(url);
+
+    ui::UiEngine::instance()->setQmlEngine(&engine);
 
     // Run the event loop
     int exitCode = app.exec();

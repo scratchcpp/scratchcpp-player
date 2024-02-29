@@ -11,7 +11,9 @@ qt_add_executable(${APP_TARGET}
 qt_add_qml_module(${APP_TARGET}
     URI ScratchCPP
     VERSION 1.0
-    QML_FILES main.qml
+    QML_FILES
+        qml/main.qml
+        qml/dialogs/AboutDialog.qml
 )
 
 set(QML_IMPORT_PATH "${QML_IMPORT_PATH};${CMAKE_CURRENT_LIST_DIR}"
