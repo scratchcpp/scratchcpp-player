@@ -54,6 +54,17 @@ AppMenuBar::AppMenuBar(QObject *parent) :
     m_fps60ModeItem->setChecked(false);
     m_editMenu->addItem(m_fps60ModeItem);
     connect(m_fps60ModeItem, &MenuItemModel::checkedChanged, this, &AppMenuBar::fps60ModeChanged);
+
+    // Help menu
+    m_helpMenu = new MenuModel(m_model);
+    m_helpMenu->setTitle(tr("&Help"));
+    m_model->addMenu(m_helpMenu);
+
+    // Help -> About program
+    m_aboutAppItem = new MenuItemModel(m_fileMenu);
+    m_aboutAppItem->setText(tr("About program..."));
+    m_helpMenu->addItem(m_aboutAppItem);
+    connect(m_aboutAppItem, &MenuItemModel::clicked, this, &AppMenuBar::aboutAppTriggered);
 }
 
 MenuBarModel *AppMenuBar::model() const

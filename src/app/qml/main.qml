@@ -8,6 +8,7 @@ import ScratchCPP.Ui
 import ScratchCPP.UiComponents
 import ScratchCPP.Render
 import ScratchCPP.Keyboard
+import "dialogs"
 
 ApplicationWindow {
     id: root
@@ -31,8 +32,14 @@ ApplicationWindow {
                 urlField.text = fileName;
                 player.fileName = fileName;
             }
+
+            function onAboutAppTriggered() {
+                aboutDialog.open();
+            }
         }
     }
+
+    AboutDialog { id: aboutDialog }
 
     ColumnLayout {
         id: layout
