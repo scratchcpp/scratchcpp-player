@@ -15,7 +15,7 @@ ApplicationWindow {
     minimumWidth: layout.implicitWidth + layout.anchors.margins * 2
     minimumHeight: menuBar.height + layout.implicitHeight + layout.anchors.margins * 2
 	visible: true
-    title: "ScratchCPP"
+    title: Qt.application.displayName
     color: Material.background
     Material.accent: "orange"
     Material.theme: Material.Dark
