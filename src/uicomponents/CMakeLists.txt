@@ -22,6 +22,8 @@ set(MODULE_SRC
     menuitemmodel.h
     filedialog.cpp
     filedialog.h
+    internal/quickwindow.cpp
+    internal/quickwindow.h
 )
 
 include(${PROJECT_SOURCE_DIR}/build/module.cmake)
