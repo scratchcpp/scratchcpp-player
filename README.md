@@ -71,7 +71,7 @@ It might not be as fast as TurboWarp (yet), but the main goal is to develop a pr
 that is **lightweight**.
 
 Scratch requires a web browser to run and web browsers typically require a lot of resources (memory).
-The ScratchCPP project player doesn't depend on a web browsers and uses less memory.
+The ScratchCPP project player doesn't depend on a web browser and uses less memory.
 
 ## NOTE
 This application is still in development and it doesn't run most Scratch projects correctly.
