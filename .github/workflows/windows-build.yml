@@ -1,0 +1,99 @@
+name: Windows build
+
+on:
+  push:
+    branches: '*'
+    tags: '*'
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        qt-version: ['6.6']
+        qt-target: ['desktop']
+        qt-modules: ['']
+        mingw-version: ['11.2.0']
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+        submodules: 'recursive'
+    - name: Setup environment
+      run: |
+        sed -i -e '/^#/d' .github/config.env
+        sed -i -e '/^$/d' .github/config.env
+        cat .github/config.env >> "${GITHUB_ENV}"
+      shell: bash
+    - name: Get version
+      run: |
+        version=$(LC_ALL=en_US.utf8 grep -oP 'project\([^)]*\s+VERSION\s+\K[0-9]+\.[0-9]+\.[0-9]+' CMakeLists.txt)
+        echo "Project version: $version"
+        echo previous_tag=$version >> "${GITHUB_ENV}"
+      shell: bash
+    ## Install Qt
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v3
+      with:
+        version: ${{ matrix.qt-version }}
+        host: 'windows'
+        arch: 'win64_mingw'
+        target: ${{ matrix.qt-target }}
+        modules: ${{ matrix.qt-modules }}
+    - name: Install Qt IFW
+      run: |
+        curl -o aqt.exe -L https://github.com/miurahr/aqtinstall/releases/download/v2.2.1/aqt.exe
+        ./aqt.exe install-tool windows desktop tools_ifw
+        mv Tools ..
+        echo ${pwd}/../Tools/QtInstallerFramework/*/bin >> "${GITHUB_PATH}"
+      shell: bash
+    - name: Install MinGW
+      uses: egor-tensin/setup-mingw@v2
+      with:
+        platform: x64
+        static: 0
+        version: ${{ matrix.mingw-version }}
+    ## Build
+    #- name: Build
+    #  run: .ci/windows_build.sh
+    #  shell: bash
+    - name: Windows build
+      run: .ci/common/build.sh win_build win64
+      shell: bash
+    - name: Copy files
+      run: |
+        mkdir win_release
+        robocopy win_build release *.exe /S /MOV
+        robocopy win_build release *.dll /S /MOV
+        cd win_release
+        windeployqt ${{ env.executable_name }}.exe --qmldir ..\win_build\src || exit 5
+        for %%v in (*.dll) do windeployqt "%%v" || exit 5
+      shell: cmd
+    #- name: Finalize Windows build
+    #  run: .ci/windows_build.sh 1
+    #  shell: bash
+    ## Upload
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: build-Qt-${{ matrix.qt-version }}
+        path: win_release/
+    ## Build installer
+    #- if: env.create_windows_installer == 1
+    #  name: Disable repository update
+    #  run: |
+    #    echo "update_windows_installer=0" >> "${GITHUB_ENV}"
+    #    echo "update_windows_repository=0" >> "${GITHUB_ENV}"
+    #  shell: bash
+    #- if: env.create_windows_installer == 1
+    #  name: Build installer
+    #  run: .ci/windows-repo.sh
+    #  shell: bash
+    ## Upload installer
+    #- name: Upload installer
+    #  uses: actions/upload-artifact@v3
+    #  with:
+    #    name: installer-Qt-${{ matrix.qt-version }}
+    #    path: '*.exe'
