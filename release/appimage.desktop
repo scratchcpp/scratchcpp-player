@@ -1,0 +1,9 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Name=ScratchCPP Player
+Exec=scratchcpp-player %U
+Terminal=false
+Type=Application
+Icon=scratchcpp-player
+Comment=Scratch project player written in C++ and QML
+Categories=Utility;
