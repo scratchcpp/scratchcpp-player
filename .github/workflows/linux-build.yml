@@ -14,7 +14,7 @@ jobs:
       matrix:
         qt-version: ['6.6']
         qt-target: ['desktop']
-        qt-modules: ['qtshadertools']
+        qt-modules: ['']
         arch: ['amd64']
         ubuntu-version: ['20.04']
     steps:
