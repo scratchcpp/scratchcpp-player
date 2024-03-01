@@ -8,11 +8,10 @@ sudo ()
 
 # Build
 if [[ "$1" != "0" ]]; then
-    .ci/common/build.sh linux || exit 1
+    .ci/common/build.sh appimage_build linux || exit 1
 fi
 
 repo_dir=$(pwd)
-mkdir -p appimage_build
 cd appimage_build
 
 # Build linuxdeploy
