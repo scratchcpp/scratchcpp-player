@@ -66,7 +66,7 @@ pip3 install patchelf
 export PATH=$PATH:~/.local/bin
 
 # Build AppImage
-export QML_SOURCES_PATHS=$repo_dir/src &&
+export QML_SOURCES_PATHS=$(pwd)/src &&
 export EXTRA_QT_PLUGINS="svg;" &&
 export LDAI_UPDATE_INFORMATION="${appimage_zsync_prefix}${app_name}*-${APPIMAGE_ARCH-$(arch)}.AppImage.zsync"
 echo "AppImage update information: ${LDAI_UPDATE_INFORMATION}"
