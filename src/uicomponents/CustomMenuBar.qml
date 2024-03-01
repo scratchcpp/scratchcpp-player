@@ -21,7 +21,8 @@ MenuBar {
     }
 
     function getComponentString(typeName) {
-        var imports = "import QtQuick; import QtQuick.Controls; import Qt.labs.platform as Platform;"
+        //var imports = "import QtQuick; import QtQuick.Controls; import Qt.labs.platform as Platform;"
+        var imports = "import QtQuick; import QtQuick.Controls;"
         return imports + " " + typeName + " {}";
     }
 
