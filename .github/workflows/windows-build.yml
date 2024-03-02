@@ -62,11 +62,11 @@ jobs:
     - name: Windows build
       run: .ci/common/build.sh win_build win64
       shell: bash
-    - name: Copy files
+    - name: Deploy
       run: |
         mkdir win_release
-        robocopy win_build release *.exe /S /MOV
-        robocopy win_build release *.dll /S /MOV
+        for /r win_build %%f in (*.exe) do @move "%%f" win_release
+        for /r win_build %%f in (*.dll) do @move "%%f" win_release
         cd win_release
         windeployqt ${{ env.executable_name }}.exe --qmldir ..\win_build\src || exit 5
         for %%v in (*.dll) do windeployqt "%%v" || exit 5
