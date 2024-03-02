@@ -69,7 +69,6 @@ jobs:
         for /r win_build %%f in (*.dll) do @move "%%f" win_release
         cd win_release
         windeployqt ${{ env.executable_name }}.exe --qmldir ..\win_build\src || exit 5
-        for %%v in (*.dll) do windeployqt "%%v" || exit 5
       shell: cmd
     #- name: Finalize Windows build
     #  run: .ci/windows_build.sh 1
