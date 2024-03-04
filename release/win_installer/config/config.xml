@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Installer>
+	<Name>ScratchCPP Player</Name>
+	<Version></Version>
+	<Title>ScratchCPP Player</Title>
+	<Publisher>adazem009</Publisher>
+	<StartMenuDir>ScratchCPP</StartMenuDir>
+	<TargetDir>@ApplicationsDir@/ScratchCPP</TargetDir>
+	<!-- <InstallerWindowIcon>windowicon.png</InstallerWindowIcon>
+	<InstallerApplicationIcon>appicon</InstallerApplicationIcon> -->
+	<WizardStyle>Modern</WizardStyle>
+	<StyleSheet>style.qss</StyleSheet>
+	<ControlScript>controller.qs</ControlScript>
+	<RemoteRepositories>
+		<Repository>
+			<Url>http://scratchcpp.github.io/installer-repo</Url>
+			<Enabled>1</Enabled>
+			<DisplayName>ScratchCPP official repository</DisplayName>
+		</Repository>
+	</RemoteRepositories>
+</Installer>

@@ -7,8 +7,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 option(SCRATCHCPP_PLAYER_BUILD_UNIT_TESTS "Build unit tests" ON)
 
-find_package(Qt6 6.6 COMPONENTS Quick QuickControls2 Widgets REQUIRED)
-set(QT_LIBS Qt6::Quick Qt6::QuickControls2 Qt6::Widgets)
+find_package(Qt6 6.6 COMPONENTS Quick QuickControls2 Widgets OpenGLWidgets REQUIRED)
+set(QT_LIBS Qt6::Quick Qt6::QuickControls2 Qt6::Widgets Qt6::OpenGLWidgets)
 
 if (SCRATCHCPP_PLAYER_BUILD_UNIT_TESTS)
     set(GTEST_DIR thirdparty/googletest)

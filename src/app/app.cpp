@@ -12,6 +12,10 @@
 #include "modularity/ioc.h"
 #include "ui/internal/uiengine.h"
 
+#ifdef Q_OS_WINDOWS
+#include <QOpenGLWidget>
+#endif
+
 using namespace scratchcpp;
 using namespace scratchcpp::modularity;
 
@@ -81,6 +85,10 @@ int App::run(int argc, char **argv)
     engine.load(url);
 
     ui::UiEngine::instance()->setQmlEngine(&engine);
+
+#ifdef Q_OS_WINDOWS
+    QOpenGLWidget glWidget; // force dependency on OpenGL widgets
+#endif
 
     // Run the event loop
     int exitCode = app.exec();
