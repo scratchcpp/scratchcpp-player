@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package>
+	<DisplayName>ScratchCPP Player</DisplayName>
+	<Description>C++-based Scratch project player</Description>
+	<Dependencies>com.microsoft.vcredist</Dependencies>
+	<Version></Version>
+	<ReleaseDate></ReleaseDate>
+	<Licenses>
+		<License name="GNU General Public License Agreement" file="license.txt" />
+	</Licenses>
+	<Default>true</Default>
+	<Script>installscript.qs</Script>
+</Package>

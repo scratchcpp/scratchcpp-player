@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package>
+    <DisplayName>Microsoft Visual C++ Redistributable</DisplayName>
+    <Description>Installs the Visual C++ redistributables</Description>
+    <Version>14.29.30139</Version>
+    <ReleaseDate>2019-04-02</ReleaseDate>
+    <Virtual>true</Virtual>
+    <Script>installscript.qs</Script>
+    <UserInterfaces>
+        <UserInterface>page.ui</UserInterface>
+    </UserInterfaces>
+</Package>

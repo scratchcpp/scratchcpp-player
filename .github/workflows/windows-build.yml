@@ -56,9 +56,6 @@ jobs:
         static: 0
         version: ${{ matrix.mingw-version }}
     ## Build
-    #- name: Build
-    #  run: .ci/windows_build.sh
-    #  shell: bash
     - name: Windows build
       run: .ci/common/build.sh win_build win64
       shell: bash
@@ -70,9 +67,6 @@ jobs:
         cd win_release
         windeployqt ${{ env.executable_name }}.exe --qmldir ..\win_build\src || exit 5
       shell: cmd
-    #- name: Finalize Windows build
-    #  run: .ci/windows_build.sh 1
-    #  shell: bash
     ## Upload
     - name: Upload artifacts
       uses: actions/upload-artifact@v3
@@ -80,19 +74,25 @@ jobs:
         name: build-Qt-${{ matrix.qt-version }}
         path: win_release/
     ## Build installer
-    #- if: env.create_windows_installer == 1
-    #  name: Disable repository update
-    #  run: |
-    #    echo "update_windows_installer=0" >> "${GITHUB_ENV}"
-    #    echo "update_windows_repository=0" >> "${GITHUB_ENV}"
-    #  shell: bash
-    #- if: env.create_windows_installer == 1
-    #  name: Build installer
-    #  run: .ci/windows-repo.sh
-    #  shell: bash
-    ## Upload installer
-    #- name: Upload installer
-    #  uses: actions/upload-artifact@v3
-    #  with:
-    #    name: installer-Qt-${{ matrix.qt-version }}
-    #    path: '*.exe'
+    - if: env.create_windows_installer == 1
+      name: Disable repository update
+      run: echo "update_windows_repository=0" >> "${GITHUB_ENV}"
+      shell: bash
+    - if: env.create_windows_installer == 1
+      name: Get installer repository
+      uses: actions/checkout@v4
+      with:
+        repository: ${{ env.installer_repo_github }}/${{ env.installer_repo_name }}
+        fetch-depth: 0
+        path: win_repo
+        token: ${{ secrets.PUSH_TOKEN }}
+    - if: env.create_windows_installer == 1
+      name: Build installer
+      run: .ci/windows_installer.sh "${GITHUB_WORKSPACE}/win_repo"
+      shell: bash
+    # Upload installer
+    - name: Upload installer
+      uses: actions/upload-artifact@v3
+      with:
+        name: installer-Qt-${{ matrix.qt-version }}
+        path: '*installer.exe'
