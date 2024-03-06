@@ -1,0 +1,238 @@
+name: Release
+
+on:
+  push:
+    tags: '*'
+
+jobs:
+  build-linux-release:
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        qt-version: ['6.6']
+        qt-target: ['desktop']
+        qt-modules: ['']
+        arch: ['amd64']
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        submodules: 'recursive'
+    - name: Setup environment
+      run: |
+        sed -i -e '/^#/d' .github/config.env
+        sed -i -e '/^$/d' .github/config.env
+        cat .github/config.env >> "${GITHUB_ENV}"
+      shell: bash
+    - name: Set up node.js
+      uses: actions/setup-node@v3
+    - if: env.build_on_new_tags != 1
+      name: Cancel if build on new tags is disabled
+      uses: andymckay/cancel-action@0.2
+    - if: contains(matrix.arch, 'amd64')
+      name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libxkbcommon-x11-0
+      shell: bash
+    - name: Get version
+      run: |
+        version=$(LC_ALL=en_US.utf8 grep -oP 'project\([^)]*\s+VERSION\s+\K[0-9]+\.[0-9]+\.[0-9]+' CMakeLists.txt)
+        echo "Project version: $version"
+        echo previous_tag=$version >> "${GITHUB_ENV}"
+      shell: bash
+    - if: contains(github.ref, '-')
+      name: Check if this is a pre-release
+      run: echo is_prerelease=1 >> "${GITHUB_ENV}"
+      shell: bash
+    # Install Qt
+    - if: contains(matrix.arch, 'amd64')
+      name: Install Qt
+      uses: jurplel/install-qt-action@v3
+      with:
+        version: ${{ matrix.qt-version }}
+        host: 'linux'
+        target: ${{ matrix.qt-target }}
+        modules: ${{ matrix.qt-modules }}
+    - if: "!contains(matrix.arch, 'amd64')"
+      name: Restore cross-compiled Qt from cache
+      id: cache-qt-cross
+      uses: actions/cache@v3
+      with:
+        path: |
+          ./qt-host/
+          ./qt-cross/
+          ./sysroot/
+        key: qt-cross-${{ runner.os }}-${{ matrix.qt-version }}-${{ matrix.qt-target }}-${{ matrix.qt-modules }}-${{ matrix.arch }}
+        restore-keys:
+          qt-cross-${{ runner.os }}-${{ matrix.qt-version }}-${{ matrix.qt-target }}-${{ matrix.qt-modules }}-${{ matrix.arch }}
+    - if: "!contains(matrix.arch, 'amd64') && steps.cache-qt-cross.outputs.cache-hit != 'true'"
+      name: Cross-compile Qt
+      shell: bash
+      run: .ci/build_qt6.sh "${{ matrix.qt-version }}" "${{ matrix.qt-modules }}" "${{ matrix.arch }}"
+    # Build
+    - if: "!contains(matrix.arch, 'amd64')"
+      name: Prepare cross-compilation environment
+      run: .ci/prepare_cross_build.sh "${{ matrix.arch }}"
+      shell: bash
+    - name: Build AppImage
+      run: .ci/build_appimage.sh
+      shell: 'script -q -e -c "bash {0}"'
+    # Upload artifacts
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: build-linux-${{ matrix.arch }}
+        path: |
+          *.AppImage
+          *.zsync
+
+  build-windows-release:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        qt-version: ['6.6']
+        qt-target: ['desktop']
+        qt-modules: ['']
+        mingw-version: ['11.2.0']
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        submodules: 'recursive'
+    - name: Setup environment
+      run: |
+        sed -i -e '/^#/d' .github/config.env
+        sed -i -e '/^$/d' .github/config.env
+        cat .github/config.env >> "${GITHUB_ENV}"
+      shell: bash
+    - name: Set up node.js
+      uses: actions/setup-node@v3
+    - if: env.build_on_new_tags != 1
+      name: Cancel if build on new tags is disabled
+      uses: andymckay/cancel-action@0.2
+    - name: Get version
+      run: |
+        version=$(LC_ALL=en_US.utf8 grep -oP 'project\([^)]*\s+VERSION\s+\K[0-9]+\.[0-9]+\.[0-9]+' CMakeLists.txt)
+        echo "Project version: $version"
+        echo previous_tag=$version >> "${GITHUB_ENV}"
+      shell: bash
+    - if: contains(github.ref, '-')
+      name: Check if this is a pre-release
+      run: echo is_prerelease=1 >> "${GITHUB_ENV}"
+      shell: bash
+    # Install Qt
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v3
+      with:
+        version: ${{ matrix.qt-version }}
+        host: 'windows'
+        arch: 'win64_mingw'
+        target: ${{ matrix.qt-target }}
+        modules: ${{ matrix.qt-modules }}
+    - name: Install Qt IFW
+      run: |
+        curl -o aqt.exe -L https://github.com/miurahr/aqtinstall/releases/download/v2.2.1/aqt.exe
+        ./aqt.exe install-tool windows desktop tools_ifw
+        mv Tools ..
+        echo ${pwd}/../Tools/QtInstallerFramework/*/bin >> "${GITHUB_PATH}"
+      shell: bash
+    - name: Install MinGW
+      uses: egor-tensin/setup-mingw@v2
+      with:
+        platform: x64
+        static: 0
+        version: ${{ matrix.mingw-version }}
+    # Build
+    - name: Build
+      run: .ci/common/build.sh win_build win64
+      shell: bash
+    - name: Deploy
+      run: |
+        mkdir win_release
+        for /r win_build %%f in (${{ env.executable_name }}.exe) do @move "%%f" win_release
+        for /r win_build %%f in (*.dll) do @move "%%f" win_release
+        cd win_release
+        windeployqt ${{ env.executable_name }}.exe --qmldir ..\win_build\src || exit 5
+      shell: cmd
+    # Update Windows repository
+    - if: env.create_windows_installer == 1 && env.is_prerelease == 1
+      name: Do not update Windows repo if this is a pre-release
+      run: |
+        echo update_windows_installer=0 >> "${GITHUB_ENV}"
+        echo update_windows_repository=0 >> "${GITHUB_ENV}"
+      shell: bash
+    - if: env.create_windows_installer == 1
+      name: Get installer repository
+      uses: actions/checkout@v4
+      with:
+        repository: ${{ env.installer_repo_github }}/${{ env.installer_repo_name }}
+        fetch-depth: 0
+        path: win_repo
+        token: ${{ secrets.PUSH_TOKEN }}
+    - if: env.create_windows_installer == 1
+      name: Build installer
+      run: .ci/windows_installer.sh "${GITHUB_WORKSPACE}/win_repo"
+      shell: bash
+    # Upload artifacts
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: build-windows
+        path: '*installer.exe'
+
+  # Release
+  release:
+    runs-on: ubuntu-latest
+    needs: [build-linux-release, build-windows-release]
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+        submodules: 'recursive'
+    - name: Setup environment
+      run: |
+        sed -i -e '/^#/d' .github/config.env
+        sed -i -e '/^$/d' .github/config.env
+        cat .github/config.env >> "${GITHUB_ENV}"
+        GITHUB_REF_NAME="${{ github.ref_name }}"
+        echo "version=${GITHUB_REF_NAME//v/}" >> $GITHUB_ENV
+      shell: bash
+    #- uses: actions/checkout@v4
+    #  with:
+    #    repository: ${{ github.repository_owner }}/${{ env.online_app_repo }}
+    #    fetch-depth: 0
+    #    token: ${{ secrets.PUSH_TOKEN }}
+    #    path: online-app
+    - if: contains(github.ref, '-')
+      name: Check if this is a pre-release
+      run: echo is_prerelease=1 >> "${GITHUB_ENV}"
+      shell: bash
+    - name: Download artifacts
+      uses: actions/download-artifact@v3
+    #- if: env.upload_online_app == 1
+    #  name: Upload online app
+    #  run: |
+    #    cd online-app
+    #    git checkout --orphan new-branch
+    #    mv ../build-wasm/* ./
+    #    rm -f index.html
+    #    ln -s ${{ env.executable_name }}.html index.html
+    #    git config user.name "GitHub Actions Bot"
+    #    git config user.email "<>"
+    #    git add -A
+    #    git commit -m "Add new release files"
+    #    git branch -D master
+    #    git branch -m master
+    #    git push -f origin master
+    #  shell: bash
+    - if: env.create_release == 1
+      name: Create release
+      uses: ncipollo/release-action@v1
+      with:
+        #artifacts: "build-windows/*.exe,build-linux-*/*.AppImage,build-linux-*/*.zsync,build-macos/*.dmg"
+        artifacts: "build-windows/*.exe,build-linux-*/*.AppImage,build-linux-*/*.zsync"
+        name: "${{ env.app_name }} ${{ env.version }}"
+        owner: ${{ github.event.pusher.name }}
+        draft: true
+        token: ${{ secrets.GITHUB_TOKEN }}
