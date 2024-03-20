@@ -13,7 +13,12 @@ AppInfo::AppInfo(QObject *parent) :
 
 QString scratchcpp::AppInfo::revision() const
 {
-    return git_CommitSHA1();
+    QString rev = git_CommitSHA1();
+
+    if (rev.size() >= 8)
+        return rev.first(8);
+
+    return "";
 }
 
 int scratchcpp::AppInfo::buildYear() const

@@ -15,7 +15,9 @@ using namespace scratchcpp::test;
 TEST(AppInfoTest, Revision)
 {
     AppInfo info;
-    ASSERT_EQ(info.revision(), git_CommitSHA1());
+    QString rev = git_CommitSHA1();
+    ASSERT_GE(rev.size(), 8);
+    ASSERT_EQ(info.revision(), rev.first(8));
 }
 
 TEST(AppInfoTest, BuildYear)
