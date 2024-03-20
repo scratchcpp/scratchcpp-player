@@ -3,6 +3,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import ScratchCPP
 import ScratchCPP.Ui
 import ScratchCPP.UiComponents
 
@@ -31,6 +32,16 @@ CustomDialog {
 
             Label {
                 text: qsTr("Version: %1").arg(Qt.application.version)
+            }
+
+            Label {
+                //: For example "SomeLibrary version: 0.1.0"
+                text: qsTr("%1 version: %2").arg("libscratchcpp").arg(LibraryInfo.libscratchcppVersion())
+            }
+
+            Label {
+                //: For example "SomeLibrary version: 0.1.0"
+                text: qsTr("%1 version: %2").arg("ScratchCPP Render").arg(LibraryInfo.scratchcppRenderVersion())
             }
 
             Label {
