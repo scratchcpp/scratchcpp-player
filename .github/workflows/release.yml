@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-20.04
     strategy:
       matrix:
-        qt-version: ['6.6']
+        qt-version: ['6.7']
         qt-target: ['desktop']
         qt-modules: ['']
         arch: ['amd64']
@@ -91,7 +91,7 @@ jobs:
     runs-on: windows-latest
     strategy:
       matrix:
-        qt-version: ['6.6']
+        qt-version: ['6.7']
         qt-target: ['desktop']
         qt-modules: ['']
         mingw-version: ['11.2.0']
