@@ -14,7 +14,7 @@ ApplicationWindow {
     id: root
     minimumWidth: layout.implicitWidth + layout.anchors.margins * 2
     minimumHeight: menuBar.height + layout.implicitHeight + layout.anchors.margins * 2
-	visible: true
+    visible: true
     title: Qt.application.displayName
     color: Material.background
     Material.accent: "orange"
@@ -31,6 +31,13 @@ ApplicationWindow {
             function onFileOpened(fileName) {
                 urlField.text = fileName;
                 player.fileName = fileName;
+            }
+
+            function onFps60ModeChanged() {
+                if(AppMenuBar.fps60Mode)
+                    player.fps = 60;
+                else if(player.fps === 60)
+                    player.fps = 30;
             }
 
             function onProjectSettingsTriggered() {
@@ -134,7 +141,6 @@ ApplicationWindow {
             activeFocusOnTab: true
             focus: true
             turboMode: AppMenuBar.turboMode
-            fps: AppMenuBar.fps60Mode ? 60 : 30
         }
     }
 }

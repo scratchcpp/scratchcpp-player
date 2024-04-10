@@ -3,6 +3,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import ScratchCPP
 import ScratchCPP.UiComponents
 import ScratchCPP.Render
 
@@ -12,6 +13,32 @@ CustomDialog {
     standardButtons: Dialog.Close
 
     contentItem: ColumnLayout {
+        // General
+        Label {
+            text: qsTr("General")
+            font.pointSize: 14
+            font.bold: true
+        }
+
+        RowLayout {
+            Label {
+                text: qsTr("FPS (frames per second)")
+            }
+
+            SpinBox {
+                editable: true
+                from: 1
+                to: 250
+                stepSize: 10
+                value: projectPlayer.fps
+                onValueChanged: {
+                    projectPlayer.fps = value;
+                    AppMenuBar.fps60Mode = (value === 60);
+                }
+            }
+        }
+
+        // Remove limits
         Label {
             text: qsTr("Remove limits")
             font.pointSize: 14
