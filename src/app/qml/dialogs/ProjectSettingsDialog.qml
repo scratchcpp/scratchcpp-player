@@ -56,5 +56,41 @@ CustomDialog {
             checked: !projectPlayer.spriteFencing
             onCheckedChanged: projectPlayer.spriteFencing = !checked
         }
+
+        // Experimental
+        Label {
+            text: qsTr("Experimental")
+            font.pointSize: 14
+            font.bold: true
+        }
+
+        RowLayout {
+            Label {
+                text: qsTr("Custom stage size")
+            }
+
+            SpinBox {
+                editable: true
+                from: 20
+                to: 1920
+                stepSize: 20
+                value: projectPlayer.stageWidth
+                onValueChanged: projectPlayer.stageWidth = value
+            }
+
+            Label {
+                text: "×"
+                font.pointSize: 16
+            }
+
+            SpinBox {
+                editable: true
+                from: 20
+                to: 1080
+                stepSize: 20
+                value: projectPlayer.stageHeight
+                onValueChanged: projectPlayer.stageHeight = value
+            }
+        }
     }
 }
