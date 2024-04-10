@@ -33,6 +33,10 @@ ApplicationWindow {
                 player.fileName = fileName;
             }
 
+            function onProjectSettingsTriggered() {
+                projectSettingsDialog.open();
+            }
+
             function onAboutAppTriggered() {
                 aboutDialog.open();
             }
@@ -40,6 +44,11 @@ ApplicationWindow {
     }
 
     AboutDialog { id: aboutDialog }
+
+    ProjectSettingsDialog {
+        id: projectSettingsDialog
+        projectPlayer: player
+    }
 
     ColumnLayout {
         id: layout
