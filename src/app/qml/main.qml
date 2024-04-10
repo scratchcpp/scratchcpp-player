@@ -14,7 +14,7 @@ ApplicationWindow {
     id: root
     minimumWidth: layout.implicitWidth + layout.anchors.margins * 2
     minimumHeight: menuBar.height + layout.implicitHeight + layout.anchors.margins * 2
-	visible: true
+    visible: true
     title: Qt.application.displayName
     color: Material.background
     Material.accent: "orange"
@@ -33,6 +33,17 @@ ApplicationWindow {
                 player.fileName = fileName;
             }
 
+            function onFps60ModeChanged() {
+                if(AppMenuBar.fps60Mode)
+                    player.fps = 60;
+                else if(player.fps === 60)
+                    player.fps = 30;
+            }
+
+            function onProjectSettingsTriggered() {
+                projectSettingsDialog.open();
+            }
+
             function onAboutAppTriggered() {
                 aboutDialog.open();
             }
@@ -40,6 +51,11 @@ ApplicationWindow {
     }
 
     AboutDialog { id: aboutDialog }
+
+    ProjectSettingsDialog {
+        id: projectSettingsDialog
+        projectPlayer: player
+    }
 
     ColumnLayout {
         id: layout
@@ -125,7 +141,6 @@ ApplicationWindow {
             activeFocusOnTab: true
             focus: true
             turboMode: AppMenuBar.turboMode
-            fps: AppMenuBar.fps60Mode ? 60 : 30
         }
     }
 }

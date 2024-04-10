@@ -55,6 +55,12 @@ AppMenuBar::AppMenuBar(QObject *parent) :
     m_editMenu->addItem(m_fps60ModeItem);
     connect(m_fps60ModeItem, &MenuItemModel::checkedChanged, this, &AppMenuBar::fps60ModeChanged);
 
+    // Edit -> Project settings
+    m_projectSettingsItem = new MenuItemModel(m_editMenu);
+    m_projectSettingsItem->setText(tr("Project settings..."));
+    m_editMenu->addItem(m_projectSettingsItem);
+    connect(m_projectSettingsItem, &MenuItemModel::clicked, this, &AppMenuBar::projectSettingsTriggered);
+
     // Help menu
     m_helpMenu = new MenuModel(m_model);
     m_helpMenu->setTitle(tr("&Help"));

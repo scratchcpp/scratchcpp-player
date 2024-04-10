@@ -46,6 +46,7 @@ class AppMenuBar : public QObject
         void fileOpened(const QString &fileName);
         void turboModeChanged();
         void fps60ModeChanged();
+        void projectSettingsTriggered();
         void aboutAppTriggered();
 
     private:
@@ -64,6 +65,7 @@ class AppMenuBar : public QObject
         uicomponents::MenuModel *m_editMenu = nullptr;
         uicomponents::MenuItemModel *m_turboModeItem = nullptr;
         uicomponents::MenuItemModel *m_fps60ModeItem = nullptr;
+        uicomponents::MenuItemModel *m_projectSettingsItem = nullptr;
 
         uicomponents::MenuModel *m_helpMenu = nullptr;
         uicomponents::MenuItemModel *m_aboutAppItem = nullptr;
