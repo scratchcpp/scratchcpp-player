@@ -23,5 +23,11 @@ CustomDialog {
             checked: projectPlayer.cloneLimit === -1
             onCheckedChanged: projectPlayer.cloneLimit = checked ? -1 : 300
         }
+
+        CheckBox {
+            text: qsTr("Remove sprite fencing")
+            checked: !projectPlayer.spriteFencing
+            onCheckedChanged: projectPlayer.spriteFencing = !checked
+        }
     }
 }
