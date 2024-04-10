@@ -11,5 +11,17 @@ CustomDialog {
     title: qsTr("Project settings")
     standardButtons: Dialog.Close
 
-    contentItem: RowLayout {}
+    contentItem: ColumnLayout {
+        Label {
+            text: qsTr("Remove limits")
+            font.pointSize: 14
+            font.bold: true
+        }
+
+        CheckBox {
+            text: qsTr("Infinite clones")
+            checked: projectPlayer.cloneLimit === -1
+            onCheckedChanged: projectPlayer.cloneLimit = checked ? -1 : 300
+        }
+    }
 }
