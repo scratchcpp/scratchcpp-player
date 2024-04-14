@@ -107,8 +107,8 @@ When the project loads, click on the green flag button to run it.
 - [x] Green flag button
 - [x] Stop button
 - [x] Turbo mode
-- [ ] FPS options
-- [ ] Stage size options
+- [x] FPS options
+- [x] Stage size options
 - [ ] HQ pen
 - [ ] Mute sounds
 - [ ] Theme options (light/dark mode, accent color, etc.)
