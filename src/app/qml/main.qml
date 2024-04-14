@@ -30,7 +30,7 @@ ApplicationWindow {
 
             function onFileOpened(fileName) {
                 urlField.text = fileName;
-                player.fileName = fileName;
+                player.load(fileName);
             }
 
             function onFps60ModeChanged() {
@@ -128,7 +128,7 @@ ApplicationWindow {
 
             CustomToolButton {
                 text: qsTr("Load")
-                onClicked: player.fileName = urlField.text
+                onClicked: player.load(urlField.text)
             }
         }
 
