@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(scratchcpp-player VERSION 0.2.0 LANGUAGES CXX)
+project(scratchcpp-player VERSION 0.3.0 LANGUAGES CXX)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
