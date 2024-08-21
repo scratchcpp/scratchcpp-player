@@ -52,6 +52,7 @@ jobs:
       with:
         version: ${{ matrix.qt-version }}
         host: 'linux'
+        arch: 'linux_gcc_64'
         target: ${{ matrix.qt-target }}
         modules: ${{ matrix.qt-modules }}
     - if: "!contains(matrix.arch, 'amd64')"
