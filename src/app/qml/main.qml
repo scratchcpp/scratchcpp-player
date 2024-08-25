@@ -79,6 +79,10 @@ ApplicationWindow {
                             AppMenuBar.fps60Mode = !AppMenuBar.fps60Mode
                             break;
 
+                        case Qt.ControlModifier:
+                            AppMenuBar.mute = !AppMenuBar.mute
+                            break;
+
                         default:
                             player.stop()
                             player.start()
@@ -94,6 +98,13 @@ ApplicationWindow {
                 onClicked: {
                     player.stop()
                 }
+            }
+
+            IconLabel {
+                icon.name: "mute"
+                icon.color: "transparent"
+                text: ""
+                visible: AppMenuBar.mute
             }
 
             IconLabel {
@@ -141,6 +152,7 @@ ApplicationWindow {
             activeFocusOnTab: true
             focus: true
             turboMode: AppMenuBar.turboMode
+            mute: AppMenuBar.mute
         }
     }
 }

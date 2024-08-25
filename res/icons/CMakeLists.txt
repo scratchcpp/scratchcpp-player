@@ -12,4 +12,5 @@ qt_add_resources(
         green_flag.svg
         stop.svg
         turbo.svg
+        mute.svg
 )

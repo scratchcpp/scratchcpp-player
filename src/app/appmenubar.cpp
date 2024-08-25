@@ -55,6 +55,14 @@ AppMenuBar::AppMenuBar(QObject *parent) :
     m_editMenu->addItem(m_fps60ModeItem);
     connect(m_fps60ModeItem, &MenuItemModel::checkedChanged, this, &AppMenuBar::fps60ModeChanged);
 
+    // Edit -> Mute
+    m_muteItem = new MenuItemModel(m_editMenu);
+    m_muteItem->setText(tr("Mute"));
+    m_muteItem->setCheckable(true);
+    m_muteItem->setChecked(false);
+    m_editMenu->addItem(m_muteItem);
+    connect(m_muteItem, &MenuItemModel::checkedChanged, this, &AppMenuBar::muteChanged);
+
     // Edit -> Project settings
     m_projectSettingsItem = new MenuItemModel(m_editMenu);
     m_projectSettingsItem->setText(tr("Project settings..."));
@@ -132,4 +140,18 @@ void AppMenuBar::setFps60Mode(bool newFps60Mode)
 
     m_fps60ModeItem->setChecked(newFps60Mode);
     emit fps60ModeChanged();
+}
+
+bool AppMenuBar::mute() const
+{
+    return m_muteItem->checked();
+}
+
+void AppMenuBar::setMute(bool newMute)
+{
+    if (m_muteItem->checked() == newMute)
+        return;
+
+    m_muteItem->setChecked(newMute);
+    emit muteChanged();
 }
