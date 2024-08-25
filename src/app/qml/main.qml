@@ -141,6 +141,7 @@ ApplicationWindow {
             activeFocusOnTab: true
             focus: true
             turboMode: AppMenuBar.turboMode
+            mute: AppMenuBar.mute
         }
     }
 }

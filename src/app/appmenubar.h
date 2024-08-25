@@ -29,6 +29,7 @@ class AppMenuBar : public QObject
         Q_PROPERTY(uicomponents::MenuBarModel *model READ model NOTIFY modelChanged)
         Q_PROPERTY(bool turboMode READ turboMode WRITE setTurboMode NOTIFY turboModeChanged)
         Q_PROPERTY(bool fps60Mode READ fps60Mode WRITE setFps60Mode NOTIFY fps60ModeChanged)
+        Q_PROPERTY(bool mute READ mute WRITE setMute NOTIFY muteChanged)
 
     public:
         explicit AppMenuBar(QObject *parent = nullptr);
@@ -41,11 +42,15 @@ class AppMenuBar : public QObject
         bool fps60Mode() const;
         void setFps60Mode(bool newFps60Mode);
 
+        bool mute() const;
+        void setMute(bool newMute);
+
     signals:
         void modelChanged();
         void fileOpened(const QString &fileName);
         void turboModeChanged();
         void fps60ModeChanged();
+        void muteChanged();
         void projectSettingsTriggered();
         void aboutAppTriggered();
 
@@ -65,6 +70,7 @@ class AppMenuBar : public QObject
         uicomponents::MenuModel *m_editMenu = nullptr;
         uicomponents::MenuItemModel *m_turboModeItem = nullptr;
         uicomponents::MenuItemModel *m_fps60ModeItem = nullptr;
+        uicomponents::MenuItemModel *m_muteItem = nullptr;
         uicomponents::MenuItemModel *m_projectSettingsItem = nullptr;
 
         uicomponents::MenuModel *m_helpMenu = nullptr;
