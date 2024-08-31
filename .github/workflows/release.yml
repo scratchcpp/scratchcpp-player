@@ -156,6 +156,12 @@ jobs:
         cd win_release
         windeployqt ${{ env.executable_name }}.exe --qmldir ..\win_build\src || exit 5
       shell: cmd
+    - name: Copy libraries
+      run: |
+        cp ${QT_ROOT_DIR}/bin/libgcc_s_seh-1.dll win_release/
+        cp ${QT_ROOT_DIR}/bin/libstdc++-6.dll win_release/
+        cp ${QT_ROOT_DIR}/bin/libwinpthread-1.dll win_release/
+      shell: bash
     # Update Windows repository
     - if: env.create_windows_installer == 1 && env.is_prerelease == 1
       name: Do not update Windows repo if this is a pre-release
