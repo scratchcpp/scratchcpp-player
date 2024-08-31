@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-20.04
     strategy:
       matrix:
-        qt-version: ['6.6']
+        qt-version: ['6.7']
         qt-target: ['desktop']
         qt-modules: ['']
         arch: ['amd64']
@@ -48,10 +48,11 @@ jobs:
     # Install Qt
     - if: contains(matrix.arch, 'amd64')
       name: Install Qt
-      uses: jurplel/install-qt-action@v3
+      uses: jurplel/install-qt-action@v4
       with:
         version: ${{ matrix.qt-version }}
         host: 'linux'
+        arch: 'linux_gcc_64'
         target: ${{ matrix.qt-target }}
         modules: ${{ matrix.qt-modules }}
     - if: "!contains(matrix.arch, 'amd64')"
@@ -91,7 +92,7 @@ jobs:
     runs-on: windows-latest
     strategy:
       matrix:
-        qt-version: ['6.6']
+        qt-version: ['6.7']
         qt-target: ['desktop']
         qt-modules: ['']
         mingw-version: ['11.2.0']
@@ -123,7 +124,7 @@ jobs:
       shell: bash
     # Install Qt
     - name: Install Qt
-      uses: jurplel/install-qt-action@v3
+      uses: jurplel/install-qt-action@v4
       with:
         version: ${{ matrix.qt-version }}
         host: 'windows'
@@ -155,6 +156,12 @@ jobs:
         cd win_release
         windeployqt ${{ env.executable_name }}.exe --qmldir ..\win_build\src || exit 5
       shell: cmd
+    - name: Copy libraries
+      run: |
+        cp ${QT_ROOT_DIR}/bin/libgcc_s_seh-1.dll win_release/
+        cp ${QT_ROOT_DIR}/bin/libstdc++-6.dll win_release/
+        cp ${QT_ROOT_DIR}/bin/libwinpthread-1.dll win_release/
+      shell: bash
     # Update Windows repository
     - if: env.create_windows_installer == 1 && env.is_prerelease == 1
       name: Do not update Windows repo if this is a pre-release

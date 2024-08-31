@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-20.04
     strategy:
       matrix:
-        qt-version: ['6.6']
+        qt-version: ['6.7']
         qt-target: ['desktop']
         qt-modules: ['']
         arch: ['amd64']
@@ -37,10 +37,11 @@ jobs:
     ## Install Qt
     - if: contains(matrix.arch, 'amd64')
       name: Install Qt (Ubuntu)
-      uses: jurplel/install-qt-action@v3
+      uses: jurplel/install-qt-action@v4
       with:
         version: ${{ matrix.qt-version }}
         host: 'linux'
+        arch: 'linux_gcc_64'
         target: ${{ matrix.qt-target }}
         modules: ${{ matrix.qt-modules }}
     - if: "!contains(matrix.arch, 'amd64')"
