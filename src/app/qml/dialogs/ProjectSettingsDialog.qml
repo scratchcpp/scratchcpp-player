@@ -38,6 +38,12 @@ CustomDialog {
             }
         }
 
+        CheckBox {
+            text: qsTr("High Quality Pen")
+            checked: projectPlayer.hqPen
+            onCheckedChanged: projectPlayer.hqPen = checked
+        }
+
         // Remove limits
         Label {
             text: qsTr("Remove limits")
