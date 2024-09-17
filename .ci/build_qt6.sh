@@ -51,7 +51,7 @@ sudo apt install -y symlinks || exit 1
 # Clone Qt
 git clone https://github.com/qt/qt5 qt || exit 1
 cd qt
-git checkout "v$qt_version" || exit 1
+git checkout `git for-each-ref --sort=-taggerdate --format='%(objectname)' --count=1  "refs/tags/v$qt_version"` || exit 1
 ./init-repository --module-subset=qtbase,qttools,qtdeclarative,qtsvg,${qt_modules} || exit 1
 
 # Build Qt (host)
