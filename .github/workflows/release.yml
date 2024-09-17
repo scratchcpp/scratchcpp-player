@@ -35,6 +35,13 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y libxkbcommon-x11-0
       shell: bash
+    - name: Install GCC11
+      shell: bash
+      run:  |
+        sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+        sudo apt update
+        sudo apt install gcc-11 g++-11
+        sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 110 --slave /usr/bin/g++ g++ /usr/bin/g++-11 --slave /usr/bin/gcov gcov /usr/bin/gcov-11
     - name: Get version
       run: |
         version=$(LC_ALL=en_US.utf8 grep -oP 'project\([^)]*\s+VERSION\s+\K[0-9]+\.[0-9]+\.[0-9]+' CMakeLists.txt)
