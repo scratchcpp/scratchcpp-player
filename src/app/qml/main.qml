@@ -57,6 +57,13 @@ ApplicationWindow {
         projectPlayer: player
     }
 
+    CustomMessageDialog {
+        id: unsupportedBlocksDialog
+        title: qsTr("Warning")
+        text: qsTr("This project contains unsupported blocks:")
+        informativeText: player.unsupportedBlocks.join('\r\n')
+    }
+
     ColumnLayout {
         id: layout
         anchors.fill: parent
@@ -153,6 +160,10 @@ ApplicationWindow {
             focus: true
             turboMode: AppMenuBar.turboMode
             mute: AppMenuBar.mute
+            onLoaded: {
+                if(unsupportedBlocks.length > 0)
+                    unsupportedBlocksDialog.open()
+            }
         }
     }
 }
