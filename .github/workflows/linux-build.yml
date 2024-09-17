@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - qt-version: '6.7.*'
+          - qt-version: '6.7'
             qt-target: 'desktop'
             qt-modules: ''
             arch: 'amd64'
