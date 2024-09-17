@@ -2,6 +2,7 @@
 
 BUILD_DIR=$1
 PLATFORM=$2
+CROSS_COMPILE=$3
 
 # exit codes:
 # 1: unsupported platform
@@ -12,6 +13,8 @@ mkdir -p "$BUILD_DIR"
 
 if [[ "$PLATFORM" == "win64" ]] || [[ "$PLATFORM" == "win32" ]]; then
 	cmake -B "$BUILD_DIR" -G "Ninja" -DCMAKE_BUILD_TYPE=Release -DSCRATCHCPP_PLAYER_BUILD_UNIT_TESTS=OFF || exit 3
+elif [[ "$PLATFORM" == "linux" ]] && [[ $CROSS_COMPILE == "1" ]]; then
+	qt-cmake -B "$BUILD_DIR" -DCMAKE_BUILD_TYPE=Release -DQT_ALLOW_MISSING_TOOLS_PACKAGES=TRUE -DSCRATCHCPP_PLAYER_BUILD_UNIT_TESTS=OFF || exit 3
 else
 	cmake -B "$BUILD_DIR" -DCMAKE_BUILD_TYPE=Release -DSCRATCHCPP_PLAYER_BUILD_UNIT_TESTS=OFF || exit 3
 fi
