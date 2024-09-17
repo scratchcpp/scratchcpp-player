@@ -12,11 +12,22 @@ jobs:
     runs-on: ubuntu-20.04
     strategy:
       matrix:
-        qt-version: ['6.7']
-        qt-target: ['desktop']
-        qt-modules: ['']
-        arch: ['amd64']
-        ubuntu-version: ['20.04']
+        include:
+          - qt-version: '6.7.*'
+            qt-target: 'desktop'
+            qt-modules: ''
+            arch: 'amd64'
+            ubuntu-version: '20.04'
+          - qt-version: '6.7.*'
+            qt-target: 'desktop'
+            qt-modules: ''
+            arch: 'aarch64'
+            ubuntu-version: '20.04'
+          - qt-version: '6.7.*'
+            qt-target: 'desktop'
+            qt-modules: ''
+            arch: 'armv7'
+            ubuntu-version: '20.04'
     steps:
     - uses: actions/checkout@v3
       with:
