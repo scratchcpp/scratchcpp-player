@@ -9,6 +9,7 @@ sudo ()
 # Build
 if [[ "$1" != "0" ]]; then
     if [ -z ${APPIMAGE_ARCH+x} ]; then
+        export Qt6_DIR="$(pwd)/qt-cross"
         .ci/common/build.sh appimage_build linux 1 || exit 1
     else
         .ci/common/build.sh appimage_build linux || exit 1

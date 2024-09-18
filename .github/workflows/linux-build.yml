@@ -23,11 +23,6 @@ jobs:
             qt-modules: 'qtdeclarative qtshadertools qtsvg'
             arch: 'aarch64'
             ubuntu-version: '20.04'
-          - qt-version: '6.7.*'
-            qt-target: 'desktop'
-            qt-modules: 'qtdeclarative qtshadertools qtsvg'
-            arch: 'armv7'
-            ubuntu-version: '20.04'
     steps:
     - uses: actions/checkout@v3
       with:
