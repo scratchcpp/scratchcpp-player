@@ -8,7 +8,11 @@ sudo ()
 
 # Build
 if [[ "$1" != "0" ]]; then
-    .ci/common/build.sh appimage_build linux || exit 1
+    if [ -z ${APPIMAGE_ARCH+x} ]; then
+        .ci/common/build.sh appimage_build linux 1 || exit 1
+    else
+        .ci/common/build.sh appimage_build linux || exit 1
+    fi
 fi
 
 repo_dir=$(pwd)
@@ -71,13 +75,13 @@ export EXTRA_QT_PLUGINS="svg;" &&
 export LDAI_UPDATE_INFORMATION="${appimage_zsync_prefix}${app_name}*-${APPIMAGE_ARCH-$(arch)}.AppImage.zsync"
 echo "AppImage update information: ${LDAI_UPDATE_INFORMATION}"
 
-case "$(qmake -query QMAKE_XSPEC)" in
-    linux-arm-gnueabi-g++)
+case "$APPIMAGE_ARCH" in
+    armhf)
         wget https://github.com/AppImage/AppImageKit/releases/download/continuous/runtime-armhf
         export ARCH=arm
         export LDAI_RUNTIME_FILE=runtime-armhf
         ;;
-    linux-aarch64-gnu-g++)
+    aarch64)
         wget https://github.com/AppImage/AppImageKit/releases/download/continuous/runtime-aarch64
         export ARCH=arm_aarch64
         export LDAI_RUNTIME_FILE=runtime-aarch64
