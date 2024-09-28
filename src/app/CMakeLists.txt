@@ -17,6 +17,7 @@ qt_add_qml_module(${APP_TARGET}
         qml/main.qml
         qml/dialogs/AboutDialog.qml
         qml/dialogs/ProjectSettingsDialog.qml
+        qml/dialogs/PreferencesDialog.qml
 )
 
 set(QML_IMPORT_PATH "${QML_IMPORT_PATH};${CMAKE_CURRENT_LIST_DIR}"
