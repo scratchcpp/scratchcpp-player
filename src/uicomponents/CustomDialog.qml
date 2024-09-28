@@ -124,11 +124,10 @@ Item {
             property alias buttonBoxLoader: buttonBoxLoader
             anchors.fill: parent
             // TODO: Read colors from ThemeEngine
-            color: /*ThemeEngine.bgColor*/ Material.background
-            //Material.background: ThemeEngine.bgColor
+            color: ThemeEngine.bgColor
+            Material.background: ThemeEngine.bgColor
             //Material.accent: ThemeEngine.currentAccentColor
-            //Material.theme: ThemeEngine.theme === ThemeEngine.DarkTheme ? Material.Dark : Material.Light
-            Material.theme: Material.Dark
+            Material.theme: ThemeEngine.theme === ThemeEngine.DarkTheme ? Material.Dark : Material.Light
 
             ColumnLayout {
                 id: contentLayout

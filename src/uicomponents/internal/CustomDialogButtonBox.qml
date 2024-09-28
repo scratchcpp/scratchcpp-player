@@ -5,13 +5,12 @@ import QtQuick.Controls
 import ScratchCPP.Ui
 
 DialogButtonBox {
-    property color bgColor: /*ThemeEngine.bgColor*/ Material.background
     property int radius: 10
     signal focusOut()
     id: dialogButtonBox
     font.capitalization: Font.MixedCase
     background: Rectangle {
-        color: bgColor
+        color: "transparent"
         radius: radius
     }
 

@@ -2,6 +2,7 @@
 
 import QtQuick
 import QtQuick.Controls
+import ScratchCPP.Ui
 import ScratchCPP.UiComponents
 
 MenuBar {
@@ -72,7 +73,7 @@ MenuBar {
     }
 
     background: Rectangle {
-        color: Material.backgroundColor // Load the color from the theme
+        color: ThemeEngine.bgColor // Load the color from the theme
     }
 
     delegate: MenuBarItem {
@@ -94,8 +95,6 @@ MenuBar {
         topPadding: 5
         bottomPadding: 5
         font.pointSize: 10
-        Material.background: Qt.rgba(0, 0, 0, 0)
-        Material.foreground: Material.theme == Material.Dark ? "white" : "black"
         contentItem: Label {
             text: replaceText(menuBarItem.text)
             font: menuBarItem.font
