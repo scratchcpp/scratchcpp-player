@@ -52,6 +52,7 @@ class AppMenuBar : public QObject
         void fps60ModeChanged();
         void muteChanged();
         void projectSettingsTriggered();
+        void preferencesTriggered();
         void aboutAppTriggered();
 
     private:
@@ -72,6 +73,8 @@ class AppMenuBar : public QObject
         uicomponents::MenuItemModel *m_fps60ModeItem = nullptr;
         uicomponents::MenuItemModel *m_muteItem = nullptr;
         uicomponents::MenuItemModel *m_projectSettingsItem = nullptr;
+        uicomponents::MenuItemModel *m_editSeparator = nullptr;
+        uicomponents::MenuItemModel *m_preferencesItem = nullptr;
 
         uicomponents::MenuModel *m_helpMenu = nullptr;
         uicomponents::MenuItemModel *m_aboutAppItem = nullptr;

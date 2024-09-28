@@ -17,8 +17,8 @@ ApplicationWindow {
     visible: true
     title: Qt.application.displayName
     color: Material.background
-    Material.accent: "orange"
-    Material.theme: Material.Dark
+    Material.accent: ThemeEngine.accentColor
+    Material.theme: ThemeEngine.theme == ThemeEngine.DarkTheme ? Material.Dark : Material.Light
     onActiveFocusItemChanged: UiEngine.activeFocusItem = activeFocusItem
 
     menuBar: CustomMenuBar {
@@ -44,6 +44,10 @@ ApplicationWindow {
                 projectSettingsDialog.open();
             }
 
+            function onPreferencesTriggered() {
+                preferencesDialog.open();
+            }
+
             function onAboutAppTriggered() {
                 aboutDialog.open();
             }
@@ -56,6 +60,8 @@ ApplicationWindow {
         id: projectSettingsDialog
         projectPlayer: player
     }
+
+    PreferencesDialog { id: preferencesDialog }
 
     CustomMessageDialog {
         id: unsupportedBlocksDialog
@@ -165,5 +171,10 @@ ApplicationWindow {
                     unsupportedBlocksDialog.open()
             }
         }
+    }
+
+    Component.onCompleted: {
+        if(ThemeEngine.accentColor === Qt.rgba(0, 0, 0, 0))
+            ThemeEngine.accentColor = Colors.defaultAccentColor;
     }
 }

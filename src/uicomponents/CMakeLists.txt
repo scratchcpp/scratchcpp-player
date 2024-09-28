@@ -4,6 +4,7 @@ set(MODULE_QML_FILES
     CustomButton.qml
     CustomToolButton.qml
     AccentButton.qml
+    ColorButton.qml
     HoverToolTip.qml
     CustomMenuBar.qml
     CustomMenu.qml

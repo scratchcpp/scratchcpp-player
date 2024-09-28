@@ -2,6 +2,7 @@ set(MODULE_TEST_SRC
     modularity.cpp
     setup.cpp
     appinfo.cpp
+    settings.cpp
     fakeexport.h
     fakedependency.h
     mocks/moduleexportinterfacemock.h

@@ -2,6 +2,7 @@
 
 import QtQuick
 import QtQuick.Controls
+import ScratchCPP.Ui
 
 Menu {
     property bool isSubMenu: false
@@ -27,8 +28,8 @@ Menu {
     font.pointSize: 10
     background: Rectangle {
         // Load colors from theme
-        color: /*ThemeEngine.bgColor*/ Material.background
-        border.color: /*ThemeEngine.borderColor*/ Qt.rgba(1, 1, 1, 0.25)
+        color: ThemeEngine.bgColor
+        border.color: ThemeEngine.borderColor
         radius: 10
         implicitHeight: 40
     }

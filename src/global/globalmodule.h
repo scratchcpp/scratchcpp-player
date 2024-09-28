@@ -10,6 +10,7 @@ namespace scratchcpp
 {
 
 class AppInfo;
+class Settings;
 
 class GlobalModule : public modularity::IModuleSetup
 {
@@ -20,6 +21,7 @@ class GlobalModule : public modularity::IModuleSetup
 
     private:
         std::shared_ptr<AppInfo> m_appInfo;
+        std::shared_ptr<Settings> m_settings;
 };
 
 } // namespace scratchcpp
