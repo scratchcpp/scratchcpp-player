@@ -14,6 +14,7 @@ CustomButton {
     signal clicked()
     id: control
     font.capitalization: Font.MixedCase
+    Material.background: ThemeEngine.theme == ThemeEngine.DarkTheme ? (highlighted ? Qt.darker(ThemeEngine.accentColor, 2) : Qt.rgba(0.25, 0.24, 0.25, 1)) : (highlighted ? Qt.lighter(ThemeEngine.accentColor, 2) : Qt.rgba(0.84, 0.84, 0.84, 1))
     Material.foreground: foregroundColor
     icon.color: foregroundColor
     onReleased: clicked()
