@@ -4,6 +4,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import ScratchCPP
+import ScratchCPP.Global
 import ScratchCPP.Ui
 import ScratchCPP.UiComponents
 
