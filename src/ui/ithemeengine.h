@@ -30,6 +30,7 @@ class IThemeEngine
         virtual void resetTheme() = 0;
 
         virtual const QColor &bgColor() const = 0;
+        virtual const QColor &foregroundColor() const = 0;
         virtual const QColor &borderColor() const = 0;
 };
 

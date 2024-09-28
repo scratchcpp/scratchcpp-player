@@ -24,6 +24,7 @@ class ThemeEngineTest : public testing::Test
 
             m_themeSpies.push_back(std::make_unique<QSignalSpy>(&m_themeEngine, &ThemeEngine::themeChanged));
             m_themeSpies.push_back(std::make_unique<QSignalSpy>(&m_themeEngine, &ThemeEngine::bgColorChanged));
+            m_themeSpies.push_back(std::make_unique<QSignalSpy>(&m_themeEngine, &ThemeEngine::foregroundColorChanged));
             m_themeSpies.push_back(std::make_unique<QSignalSpy>(&m_themeEngine, &ThemeEngine::borderColorChanged));
         }
 

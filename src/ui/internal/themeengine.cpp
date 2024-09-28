@@ -29,6 +29,7 @@ void ThemeEngine::setTheme(Theme newTheme)
 void ThemeEngine::reloadTheme()
 {
     emit bgColorChanged();
+    emit foregroundColorChanged();
     emit borderColorChanged();
     emit themeChanged();
 }
@@ -42,6 +43,13 @@ const QColor &ThemeEngine::bgColor() const
 {
     static const QColor dark = QColor(31, 30, 28);
     static const QColor light = QColor(255, 255, 255);
+    return theme() == Theme::DarkTheme ? dark : light;
+}
+
+const QColor &ThemeEngine::foregroundColor() const
+{
+    static const QColor dark = QColor(255, 255, 255);
+    static const QColor light = QColor(0, 0, 0);
     return theme() == Theme::DarkTheme ? dark : light;
 }
 
