@@ -78,8 +78,6 @@ CustomDialog {
             target: ThemeEngine
 
             function onThemeChanged() {
-                console.log(priv.accentColorIndex, ThemeEngine.theme);
-
                 if(ThemeEngine.theme == ThemeEngine.DarkTheme) {
                     ThemeEngine.accentColor = Colors.darkAccentColors[priv.accentColorIndex];
                 } else {
