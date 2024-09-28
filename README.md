@@ -111,7 +111,7 @@ When the project loads, click on the green flag button to run it.
 - [x] Stage size options
 - [x] HQ pen
 - [x] Mute sounds
-- [ ] Theme options (light/dark mode, accent color, etc.)
+- [x] Theme options (light/dark mode, accent color, etc.)
 
 See the [open issues](https://github.com/scratchcpp/scratchcpp-player/issues) for a full list of proposed features (and known issues).
 
