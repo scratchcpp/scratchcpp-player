@@ -5,6 +5,7 @@ set(MODULE_SRC
     globalmodule.h
     iappinfo.h
     ifilepaths.h
+    isettings.h
     modularity/ioc.h
     modularity/modulesioc.h
     modularity/imoduleexportinterface.h
@@ -13,6 +14,8 @@ set(MODULE_SRC
     internal/appinfo.h
     internal/filepaths.cpp
     internal/filepaths.h
+    internal/settings.cpp
+    internal/settings.h
 )
 
 include(${PROJECT_SOURCE_DIR}/build/module.cmake)
