@@ -10,11 +10,14 @@ qt_add_executable(${APP_TARGET}
     libraryinfo.h
 )
 
+set_source_files_properties(qml/Colors.qml PROPERTIES QT_QML_SINGLETON_TYPE TRUE)
+
 qt_add_qml_module(${APP_TARGET}
     URI ScratchCPP
     VERSION 1.0
     QML_FILES
         qml/main.qml
+        qml/Colors.qml
         qml/dialogs/AboutDialog.qml
         qml/dialogs/ProjectSettingsDialog.qml
         qml/dialogs/PreferencesDialog.qml

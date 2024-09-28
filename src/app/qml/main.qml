@@ -172,4 +172,9 @@ ApplicationWindow {
             }
         }
     }
+
+    Component.onCompleted: {
+        if(ThemeEngine.accentColor === Qt.rgba(0, 0, 0, 0))
+            ThemeEngine.accentColor = Colors.defaultAccentColor;
+    }
 }
