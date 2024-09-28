@@ -3,11 +3,12 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.Material
+import ScratchCPP.Ui
 
 // Similar to ToolButton, but it's always a (rounded) rectangle
 // Double click events are not supported, use the clicked() signal like with a QPushButton
 CustomButton {
-    property color foregroundColor: Material.theme === Material.Dark ? "white" : "black"
+    property color foregroundColor: ThemeEngine.foregroundColor
     property string toolTipText
     property string accessibleDescription: ""
     signal clicked()
