@@ -8,6 +8,7 @@ qt_add_executable(${APP_TARGET}
     appmenubar.h
     libraryinfo.cpp
     libraryinfo.h
+    MANUAL_FINALIZATION
 )
 
 set_source_files_properties(qml/Colors.qml PROPERTIES QT_QML_SINGLETON_TYPE TRUE)
@@ -22,6 +23,8 @@ qt_add_qml_module(${APP_TARGET}
         qml/dialogs/ProjectSettingsDialog.qml
         qml/dialogs/PreferencesDialog.qml
 )
+
+qt_finalize_executable(${APP_TARGET})
 
 set(QML_IMPORT_PATH "${QML_IMPORT_PATH};${CMAKE_CURRENT_LIST_DIR}"
     CACHE STRING "Qt Creator extra QML import paths"
