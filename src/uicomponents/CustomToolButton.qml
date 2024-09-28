@@ -14,7 +14,6 @@ CustomButton {
     signal clicked()
     id: control
     font.capitalization: Font.MixedCase
-    Material.background: Qt.rgba(foregroundColor.r, foregroundColor.g, foregroundColor.b, 0.15)
     Material.foreground: foregroundColor
     icon.color: foregroundColor
     onReleased: clicked()
