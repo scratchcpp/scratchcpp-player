@@ -82,6 +82,7 @@ ApplicationWindow {
                 id: greenFlagButton
                 icon.name: "green_flag"
                 icon.color: "transparent"
+                highlighted: player.running
                 onClicked: {
                     switch (KeyboardInfo.keyboardModifiers()) {
                         case Qt.ShiftModifier:
