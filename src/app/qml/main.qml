@@ -17,7 +17,7 @@ ApplicationWindow {
     visible: true
     title: Qt.application.displayName
     color: Material.background
-    Material.accent: "orange"
+    Material.accent: ThemeEngine.accentColor
     Material.theme: ThemeEngine.theme == ThemeEngine.DarkTheme ? Material.Dark : Material.Light
     onActiveFocusItemChanged: UiEngine.activeFocusItem = activeFocusItem
 
