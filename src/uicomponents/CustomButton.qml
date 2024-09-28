@@ -6,6 +6,6 @@ import QtQuick.Controls
 Button {
     id: control
     Material.roundedScale: Material.SmallScale
-    leftInset: icon.source + icon.name == "" ? 0 : -2
-    rightInset: icon.source + icon.name == "" ? 0 : 5
+    leftInset: icon.source + icon.name == "" ? 0 : 0
+    rightInset: icon.source + icon.name == "" ? 0 : 3
 }
