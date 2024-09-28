@@ -69,6 +69,17 @@ AppMenuBar::AppMenuBar(QObject *parent) :
     m_editMenu->addItem(m_projectSettingsItem);
     connect(m_projectSettingsItem, &MenuItemModel::clicked, this, &AppMenuBar::projectSettingsTriggered);
 
+    // Edit -> (separator)
+    m_editSeparator = new MenuItemModel(m_editMenu);
+    m_editSeparator->setIsSeparator(true);
+    m_editMenu->addItem(m_editSeparator);
+
+    // Edit -> Preferences
+    m_preferencesItem = new MenuItemModel(m_editMenu);
+    m_preferencesItem->setText(tr("Preferences..."));
+    m_editMenu->addItem(m_preferencesItem);
+    connect(m_preferencesItem, &MenuItemModel::clicked, this, &AppMenuBar::preferencesTriggered);
+
     // Help menu
     m_helpMenu = new MenuModel(m_model);
     m_helpMenu->setTitle(tr("&Help"));

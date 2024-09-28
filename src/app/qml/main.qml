@@ -44,6 +44,10 @@ ApplicationWindow {
                 projectSettingsDialog.open();
             }
 
+            function onPreferencesTriggered() {
+                preferencesDialog.open();
+            }
+
             function onAboutAppTriggered() {
                 aboutDialog.open();
             }
@@ -56,6 +60,8 @@ ApplicationWindow {
         id: projectSettingsDialog
         projectPlayer: player
     }
+
+    PreferencesDialog { id: preferencesDialog }
 
     CustomMessageDialog {
         id: unsupportedBlocksDialog
