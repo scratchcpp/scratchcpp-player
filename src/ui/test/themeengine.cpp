@@ -13,6 +13,7 @@ using ::testing::_;
 
 static const QString MODULE = "ui";
 static const QString THEME_KEY = "theme";
+static const QString ACCENT_COLOR_KEY = "accentColor";
 
 class ThemeEngineTest : public testing::Test
 {
@@ -26,6 +27,7 @@ class ThemeEngineTest : public testing::Test
             m_themeSpies.push_back(std::make_unique<QSignalSpy>(&m_themeEngine, &ThemeEngine::bgColorChanged));
             m_themeSpies.push_back(std::make_unique<QSignalSpy>(&m_themeEngine, &ThemeEngine::foregroundColorChanged));
             m_themeSpies.push_back(std::make_unique<QSignalSpy>(&m_themeEngine, &ThemeEngine::borderColorChanged));
+            m_themeSpies.push_back(std::make_unique<QSignalSpy>(&m_themeEngine, &ThemeEngine::accentColorChanged));
         }
 
         void TearDown() override { m_themeEngine.setsettings(nullptr); }
@@ -69,4 +71,25 @@ TEST_F(ThemeEngineTest, Theme)
 
     m_themeEngine.reloadTheme();
     checkThemeSpies(4);
+}
+
+TEST_F(ThemeEngineTest, AccentColor)
+{
+    QSignalSpy spy(&m_themeEngine, &ThemeEngine::accentColorChanged);
+
+    EXPECT_CALL(*m_settings, getValue(MODULE, ACCENT_COLOR_KEY)).WillOnce(Return(QColor(255, 0, 0)));
+    ASSERT_EQ(m_themeEngine.accentColor(), QColor(255, 0, 0));
+    ASSERT_EQ(spy.count(), 0);
+
+    EXPECT_CALL(*m_settings, getValue(MODULE, ACCENT_COLOR_KEY)).WillOnce(Return(QColor(0, 255, 128)));
+    ASSERT_EQ(m_themeEngine.accentColor(), QColor(0, 255, 128));
+    ASSERT_EQ(spy.count(), 0);
+
+    EXPECT_CALL(*m_settings, setValue(MODULE, ACCENT_COLOR_KEY, QVariant(QColor(255, 255, 255))));
+    m_themeEngine.setAccentColor(QColor(255, 255, 255));
+    ASSERT_EQ(spy.count(), 1);
+
+    EXPECT_CALL(*m_settings, setValue(MODULE, ACCENT_COLOR_KEY, QVariant(QColor(0, 0, 0))));
+    m_themeEngine.setAccentColor(QColor(0, 0, 0));
+    ASSERT_EQ(spy.count(), 2);
 }

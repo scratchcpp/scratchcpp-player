@@ -21,6 +21,7 @@ class ThemeEngine : public IThemeEngine
         Q_PROPERTY(QColor bgColor READ bgColor NOTIFY bgColorChanged FINAL)
         Q_PROPERTY(QColor foregroundColor READ foregroundColor NOTIFY foregroundColorChanged FINAL)
         Q_PROPERTY(QColor borderColor READ borderColor NOTIFY borderColorChanged FINAL)
+        Q_PROPERTY(QColor accentColor READ accentColor WRITE setAccentColor NOTIFY accentColorChanged FINAL)
     public:
         static std::shared_ptr<ThemeEngine> instance();
 
@@ -33,11 +34,15 @@ class ThemeEngine : public IThemeEngine
         const QColor &foregroundColor() const override;
         const QColor &borderColor() const override;
 
+        QColor accentColor() const override;
+        void setAccentColor(const QColor &newAccentColor) override;
+
     signals:
         void themeChanged();
         void bgColorChanged();
         void foregroundColorChanged();
         void borderColorChanged();
+        void accentColorChanged();
 
     private:
         static std::shared_ptr<ThemeEngine> m_instance;

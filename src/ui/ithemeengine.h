@@ -32,6 +32,9 @@ class IThemeEngine
         virtual const QColor &bgColor() const = 0;
         virtual const QColor &foregroundColor() const = 0;
         virtual const QColor &borderColor() const = 0;
+
+        virtual QColor accentColor() const = 0;
+        virtual void setAccentColor(const QColor &newAccentColor) = 0;
 };
 
 } // namespace scratchcpp

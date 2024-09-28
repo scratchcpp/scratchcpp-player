@@ -7,6 +7,7 @@ using namespace scratchcpp;
 
 static const QString MODULE = "ui";
 static const QString THEME_KEY = "theme";
+static const QString ACCENT_COLOR_KEY = "accentColor";
 
 std::shared_ptr<ThemeEngine> ThemeEngine::m_instance = std::make_shared<ThemeEngine>();
 
@@ -31,6 +32,7 @@ void ThemeEngine::reloadTheme()
     emit bgColorChanged();
     emit foregroundColorChanged();
     emit borderColorChanged();
+    emit accentColorChanged();
     emit themeChanged();
 }
 
@@ -58,4 +60,15 @@ const QColor &ThemeEngine::borderColor() const
     static const QColor dark = QColor(255, 255, 255, 64);
     static const QColor light = QColor(0, 0, 0, 64);
     return theme() == Theme::DarkTheme ? dark : light;
+}
+
+QColor ThemeEngine::accentColor() const
+{
+    return settings()->getValue(MODULE, ACCENT_COLOR_KEY).value<QColor>();
+}
+
+void ThemeEngine::setAccentColor(const QColor &newAccentColor)
+{
+    settings()->setValue(MODULE, ACCENT_COLOR_KEY, newAccentColor);
+    emit accentColorChanged();
 }
