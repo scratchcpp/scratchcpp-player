@@ -16,7 +16,7 @@ ApplicationWindow {
     minimumHeight: menuBar.height + layout.implicitHeight + layout.anchors.margins * 2
     visible: true
     title: Qt.application.displayName
-    color: Material.background
+    color: ThemeEngine.bgColor
     Material.accent: ThemeEngine.accentColor
     Material.theme: ThemeEngine.theme == ThemeEngine.DarkTheme ? Material.Dark : Material.Light
     onActiveFocusItemChanged: UiEngine.activeFocusItem = activeFocusItem
