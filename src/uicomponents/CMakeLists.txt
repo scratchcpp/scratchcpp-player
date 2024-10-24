@@ -12,6 +12,7 @@ set(MODULE_QML_FILES
     CustomMenuSeparator.qml
     CustomDialog.qml
     CustomMessageDialog.qml
+    IconLabel.qml
     internal/CustomDialogButtonBox.qml
 )
 set(MODULE_SRC
