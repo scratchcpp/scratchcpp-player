@@ -2,6 +2,10 @@
 
 #include <QCoreApplication>
 #include <QPushButton>
+#ifdef Q_OS_LINUX
+#include <QtDBus/QDBusConnection>
+#include <QtDBus/QDBusConnectionInterface>
+#endif
 
 #include "uiengine.h"
 
@@ -65,4 +69,25 @@ void UiEngine::setActiveFocusItem(QQuickItem *newActiveFocusItem)
 
     m_activeFocusItem = newActiveFocusItem;
     emit activeFocusItemChanged();
+}
+
+bool UiEngine::useNativeMenuBar() const
+{
+#if defined(Q_OS_MACOS)
+#if QT_VERSION < QT_VERSION_CHECK(6, 8, 0)
+    return true;
+#else
+    // Since Qt 6.8, Qt Quick Controls menu bar is native
+    return false;
+#endif
+#elif defined(Q_OS_LINUX)
+    const QDBusConnection connection = QDBusConnection::sessionBus();
+    static const QString registrarService = QStringLiteral("com.canonical.AppMenu.Registrar");
+    if (const auto iface = connection.interface())
+        return iface->isServiceRegistered(registrarService);
+    else
+        return false;
+#else
+    return false;
+#endif
 }

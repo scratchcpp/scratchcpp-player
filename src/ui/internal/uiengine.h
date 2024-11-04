@@ -19,6 +19,7 @@ class UiEngine
 {
         Q_OBJECT
         Q_PROPERTY(QQuickItem *activeFocusItem READ activeFocusItem WRITE setActiveFocusItem NOTIFY activeFocusItemChanged)
+        Q_PROPERTY(bool useNativeMenuBar READ useNativeMenuBar NOTIFY useNativeMenuBarChanged FINAL)
 
     public:
         explicit UiEngine(QObject *parent = nullptr);
@@ -34,8 +35,11 @@ class UiEngine
         QQuickItem *activeFocusItem() const;
         void setActiveFocusItem(QQuickItem *newActiveFocusItem);
 
+        bool useNativeMenuBar() const;
+
     signals:
         void activeFocusItemChanged();
+        void useNativeMenuBarChanged();
 
     private:
         static std::shared_ptr<UiEngine> m_instance;
