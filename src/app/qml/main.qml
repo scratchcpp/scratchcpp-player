@@ -170,6 +170,25 @@ ApplicationWindow {
             onLoaded: {
                 if(unsupportedBlocks.length > 0)
                     unsupportedBlocksDialog.open()
+
+                currentFps.enable = true;
+            }
+
+            Loader {
+                id: currentFps
+                property bool enable: false
+                active: projectSettingsDialog.showCurrentFps && enable
+                anchors.right: player.stageRect.right
+                anchors.top: player.stageRect.top
+
+                sourceComponent: Text {
+                    text: player.renderFps
+                    font.pointSize: 20 * player.stageScale
+                    font.family: "mono"
+                    color: Qt.rgba(1, 0, 0, 0.75)
+                    style: Text.Outline
+                    styleColor: "black"
+                }
             }
         }
     }

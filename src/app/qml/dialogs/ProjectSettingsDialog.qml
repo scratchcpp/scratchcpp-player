@@ -9,6 +9,7 @@ import ScratchCPP.Render
 
 CustomDialog {
     property ProjectPlayer projectPlayer: null
+    property bool showCurrentFps: false
     title: qsTr("Project settings")
     standardButtons: Dialog.Close
 
@@ -42,6 +43,13 @@ CustomDialog {
             text: qsTr("High Quality Pen")
             checked: projectPlayer.hqPen
             onCheckedChanged: projectPlayer.hqPen = checked
+        }
+
+        CheckBox {
+            id: showFpsCheckBox
+            text: qsTr("Show current FPS")
+            checked: showCurrentFps
+            onCheckedChanged: showCurrentFps = checked
         }
 
         // Remove limits
