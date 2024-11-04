@@ -2,6 +2,7 @@
 
 import QtQuick
 import QtQuick.Controls
+import Qt.labs.platform as Platform
 import ScratchCPP.Ui
 import ScratchCPP.UiComponents
 
@@ -22,8 +23,7 @@ MenuBar {
     }
 
     function getComponentString(typeName) {
-        //var imports = "import QtQuick; import QtQuick.Controls; import Qt.labs.platform as Platform;"
-        var imports = "import QtQuick; import QtQuick.Controls;"
+        var imports = "import QtQuick; import QtQuick.Controls; import Qt.labs.platform as Platform;"
         return imports + " " + typeName + " {}";
     }
 
@@ -103,11 +103,11 @@ MenuBar {
     }
 
     function reload() {
-        /*if(nativeMenuBarEnabled)
+        if(UiEngine.useNativeMenuBar)
         {
             root.visible = false;
             return;
-        }*/
+        }
 
         var oldObjects = [];
 
@@ -132,14 +132,14 @@ MenuBar {
 
     Component.onCompleted: reload();
 
-    /*onEnabledChanged: {
+    onEnabledChanged: {
         if(platformMenuBarLoader.active)
             platformMenuBarLoader.item.reload();
     }
 
     Loader {
         id: platformMenuBarLoader
-        active: // whether the native menu bar is active
+        active: UiEngine.useNativeMenuBar
 
         sourceComponent: Platform.MenuBar {
             id: platformMenuBar
@@ -149,14 +149,14 @@ MenuBar {
                     createMenuBar(platformMenuBar, "Platform.Menu", "Platform.MenuItem", "Platform.MenuSeparator");
             }
 
-            Connections {
-                target: QmlUtils
+            /*Connections {
+                target: // TODO: Add a class for the menu bar reload signal
                 function onMenuBarReloadTriggered() {
                     platformMenuBar.reload();
                 }
-            }
+            }*/
 
             Component.onCompleted: reload();
         }
-    }*/
+    }
 }
