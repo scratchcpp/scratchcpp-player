@@ -75,7 +75,7 @@ jobs:
       shell: bash
     ## Upload
     - name: Upload artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: build-Qt-${{ matrix.qt-version }}
         path: win_release/
@@ -98,7 +98,7 @@ jobs:
       shell: bash
     # Upload installer
     - name: Upload installer
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: installer-Qt-${{ matrix.qt-version }}
         path: '*installer.exe'

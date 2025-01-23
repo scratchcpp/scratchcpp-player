@@ -88,7 +88,7 @@ jobs:
       shell: 'script -q -e -c "bash {0}"'
     # Upload artifacts
     - name: Upload artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: build-linux-${{ matrix.arch }}
         path: |
@@ -190,7 +190,7 @@ jobs:
       shell: bash
     # Upload artifacts
     - name: Upload artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: build-windows
         path: '*installer.exe'
