@@ -9,11 +9,26 @@ jobs:
     runs-on: ubuntu-20.04
     strategy:
       matrix:
-        qt-version: ['6.8']
-        qt-target: ['desktop']
-        qt-modules: ['']
-        arch: ['amd64']
+        include:
+          - qt-version: '6.8'
+            qt-target: 'desktop'
+            qt-modules: ''
+            arch: 'amd64'
+          - qt-version: '6.8'
+            qt-target: 'desktop'
+            qt-modules: 'qtshadertools'
+            arch: 'aarch64'
     steps:
+    - name: Maximize build space
+      uses: easimon/maximize-build-space@master
+      with:
+        root-reserve-mb: 512
+        swap-size-mb: 1024
+        remove-dotnet: true
+        remove-android: true
+        remove-haskell: true
+        remove-codeql: true
+        remove-docker-images: true
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0
@@ -53,44 +68,58 @@ jobs:
       run: echo is_prerelease=1 >> "${GITHUB_ENV}"
       shell: bash
     # Install Qt
-    - if: contains(matrix.arch, 'amd64')
-      name: Install Qt
+    - name: Install Qt
       uses: jurplel/install-qt-action@v4
       with:
         version: ${{ matrix.qt-version }}
-        host: 'linux'
-        arch: 'linux_gcc_64'
+        arch: linux_gcc_64
         target: ${{ matrix.qt-target }}
         modules: ${{ matrix.qt-modules }}
+        dir: ${{ github.workspace }}/Qt_host
+    - name: Set host Qt path
+      run: echo "QT_HOST_PATH=${QT_ROOT_DIR}" >> "${GITHUB_ENV}"
+      shell: bash
     - if: "!contains(matrix.arch, 'amd64')"
       name: Restore cross-compiled Qt from cache
-      id: cache-qt-cross
-      uses: actions/cache@v3
+      id: restore-qt-cross
+      uses: jlanga/cache/restore@remove-files
       with:
-        path: |
-          ./qt-host/
-          ./qt-cross/
-          ./sysroot/
+        path: ./qt-cross/
         key: qt-cross-${{ runner.os }}-${{ matrix.qt-version }}-${{ matrix.qt-target }}-${{ matrix.qt-modules }}-${{ matrix.arch }}
-        restore-keys:
-          qt-cross-${{ runner.os }}-${{ matrix.qt-version }}-${{ matrix.qt-target }}-${{ matrix.qt-modules }}-${{ matrix.arch }}
-    - if: "!contains(matrix.arch, 'amd64') && steps.cache-qt-cross.outputs.cache-hit != 'true'"
-      name: Cross-compile Qt
+    - if: "!contains(matrix.arch, 'amd64')"
+      name: Set cross Qt path
+      run: echo "QT_CROSS_PATH=$(pwd)/qt-cross" >> "$GITHUB_ENV"
       shell: bash
-      run: .ci/build_qt6.sh "${{ matrix.qt-version }}" "${{ matrix.qt-modules }}" "${{ matrix.arch }}"
-    # Build
     - if: "!contains(matrix.arch, 'amd64')"
       name: Prepare cross-compilation environment
       run: .ci/prepare_cross_build.sh "${{ matrix.arch }}"
       shell: bash
+    - if: "!contains(matrix.arch, 'amd64') && steps.restore-qt-cross.outputs.cache-hit != 'true'"
+      name: Cross-compile Qt
+      shell: bash
+      run: .ci/build_qt6.sh "${{ matrix.qt-version }}" "${{ matrix.qt-modules }}" "${{ matrix.arch }}"
+    - if: "!contains(matrix.arch, 'amd64') && steps.restore-qt-cross.outputs.cache-hit != 'true'"
+      name: Cache and remove cross-compiled Qt
+      id: cache-qt-cross
+      uses: jlanga/cache/save@remove-files
+      with:
+        path: ./qt-cross/
+        key: qt-cross-${{ runner.os }}-${{ matrix.qt-version }}-${{ matrix.qt-target }}-${{ matrix.qt-modules }}-${{ matrix.arch }}
+    - if: "!contains(matrix.arch, 'amd64') && steps.restore-qt-cross.outputs.cache-hit != 'true'"
+      name: Restore cross-compiled Qt from cache
+      uses: jlanga/cache/restore@remove-files
+      with:
+        path: ./qt-cross/
+        key: qt-cross-${{ runner.os }}-${{ matrix.qt-version }}-${{ matrix.qt-target }}-${{ matrix.qt-modules }}-${{ matrix.arch }}
+    # Build
     - name: Build AppImage
-      run: .ci/build_appimage.sh
+      run: .ci/build_appimage.sh ${{ matrix.arch }}
       shell: 'script -q -e -c "bash {0}"'
     # Upload artifacts
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: build-linux-${{ matrix.arch }}
+        name: build-Qt-${{ matrix.qt-version }}-${{ matrix.arch }}
         path: |
           *.AppImage
           *.zsync
