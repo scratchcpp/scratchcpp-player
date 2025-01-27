@@ -7,9 +7,12 @@ sudo ()
 }
 
 # Build
-if [[ "$1" != "0" ]]; then
-    .ci/common/build.sh appimage_build linux || exit 1
+if [[ "$1" == "" ]]; then
+    PLATFORM=linux
+else
+    PLATFORM="linux_$1"
 fi
+.ci/common/build.sh appimage_build $PLATFORM || exit 1
 
 repo_dir=$(pwd)
 cd appimage_build
@@ -45,44 +48,62 @@ cmake .. &&
 make -j$(nproc --all) &&
 mv src/linuxdeploy-plugin-appimage ../.. &&
 cd ../.. &&
-rm -rf plugin-appimage &&
+rm -rf plugin-appimage
 
-# Build AppImageKit
-sudo apt install -y snapd squashfs-tools &&
-sudo snap install docker &&
-git clone https://github.com/AppImage/AppImageKit --recurse-submodules &&
-cd AppImageKit &&
-sudo env ARCH=$(arch) bash ci/build.sh
-sudo cp out/appimagetool /usr/bin/ &&
-sudo cp out/digest /usr/bin/ &&
-sudo cp out/validate /usr/bin/ &&
-cd .. &&
-sudo mkdir -p /usr/lib/appimagekit &&
-sudo ln -s /usr/bin/mksquashfs /usr/lib/appimagekit/mksquashfs &&
+# Download appimagetool
+wget https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage &&
+mv appimagetool-*.AppImage appimagetool
+chmod +x appimagetool
+export PATH=$(pwd):$PATH
 
 # Install patchelf from PyPI (see https://github.com/linuxdeploy/linuxdeploy-plugin-qt/issues/133#issuecomment-1608168363)
 sudo apt install -y python3-pip
+python3 -m venv .venv
+source .venv/bin/activate
 pip3 install patchelf
-export PATH=$PATH:~/.local/bin
+patchelf --version
+
+# Use custom ldd and strip
+if [[ "$PLATFORM" == "linux_aarch64" ]]; then
+    ln -s /usr/bin/${BUILD_TOOLCHAIN_PREFIX}strip strip
+    sudo cp ../.ci/bin/xldd /usr/bin/${BUILD_TOOLCHAIN_PREFIX}ldd
+    ln -s /usr/bin/${BUILD_TOOLCHAIN_PREFIX}ldd ldd
+    export CT_XLDD_ROOT="$BUILD_SYSROOT_PATH"
+fi
+
+# Set LD_LIBRARY_PATH (directories with *.so files)
+# TODO: Installing with cmake is probably a better idea
+LD_LIBRARY_PATH=""
+
+for file in $(find . -type f -name "*.so*"); do
+    dir=$(dirname "$file")
+    if [[ ":$LD_LIBRARY_PATH:" != *":$dir:"* ]]; then
+        LD_LIBRARY_PATH="$LD_LIBRARY_PATH:`readlink -f $dir`"
+    fi
+done
+
+LD_LIBRARY_PATH=${LD_LIBRARY_PATH#:}
+LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$QT_ROOT_DIR/lib" # Qt
+export LD_LIBRARY_PATH
+echo "LD_LIBRARY_PATH set to: $LD_LIBRARY_PATH"
 
 # Build AppImage
-export QML_SOURCES_PATHS=$(pwd)/src &&
-export EXTRA_QT_PLUGINS="svg;" &&
-export LDAI_UPDATE_INFORMATION="${appimage_zsync_prefix}${app_name}*-${APPIMAGE_ARCH-$(arch)}.AppImage.zsync"
-echo "AppImage update information: ${LDAI_UPDATE_INFORMATION}"
+if [[ "$PLATFORM" == "linux_aarch64" ]]; then
+    wget https://github.com/AppImage/type2-runtime/releases/download/continuous/runtime-aarch64
+    export ARCH=arm_aarch64
+    APPIMAGE_ARCH=aarch64
+    export LDAI_RUNTIME_FILE=runtime-aarch64
+    export QEMU_LD_PREFIX="$BUILD_SYSROOT_PATH"
+    export PATH="$QT_ROOT_DIR/bin:$PATH" # use cross Qt
+    export PATH="$PATH:$QT_HOST_PATH/libexec"
+else
+    APPIMAGE_ARCH=x86_64
+fi
 
-case "$(qmake -query QMAKE_XSPEC)" in
-    linux-arm-gnueabi-g++)
-        wget https://github.com/AppImage/AppImageKit/releases/download/continuous/runtime-armhf
-        export ARCH=arm
-        export LDAI_RUNTIME_FILE=runtime-armhf
-        ;;
-    linux-aarch64-gnu-g++)
-        wget https://github.com/AppImage/AppImageKit/releases/download/continuous/runtime-aarch64
-        export ARCH=arm_aarch64
-        export LDAI_RUNTIME_FILE=runtime-aarch64
-        ;;
-esac
+export QML_SOURCES_PATHS=$(pwd)/src &&
+export EXTRA_QT_MODULES="qml;svg;" &&
+export LDAI_UPDATE_INFORMATION="${appimage_zsync_prefix}${app_name}*-${APPIMAGE_ARCH}.AppImage.zsync"
+echo "AppImage update information: ${LDAI_UPDATE_INFORMATION}"
 
 ./linuxdeploy --appdir AppDir -e src/app/${executable_name} -i $repo_dir/res/${executable_name}.png -d $repo_dir/release/appimage.desktop --plugin qt --output appimage
 
