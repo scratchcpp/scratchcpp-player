@@ -42,7 +42,7 @@ git checkout $(git tag | grep '^v6\.8\.[0-9]*$' | sort -V | tail -n 1) || exit 
 mkdir cross-build
 cd cross-build
 echo "Cross-compiling Qt..."
-../configure -release -opengl es2 -nomake examples -nomake tests -qt-host-path "$host_prefix" -xplatform "$BUILD_PLATFORM" \
+../configure -release -opengl desktop -nomake examples -nomake tests -qt-host-path "$host_prefix" -xplatform "$BUILD_PLATFORM" \
              -device-option CROSS_COMPILE="$BUILD_TOOLCHAIN_PREFIX" -sysroot "$BUILD_SYSROOT_PATH" -opensource -confirm-license \
              -prefix "$target_prefix" -extprefix "$cross_prefix" -- -DCMAKE_TOOLCHAIN_FILE="$BUILD_TOOLCHAIN_CONFIG" \
              -DQT_FEATURE_xcb=ON -DFEATURE_xcb_xlib=ON -DQT_FEATURE_xlib=ON || exit 1
