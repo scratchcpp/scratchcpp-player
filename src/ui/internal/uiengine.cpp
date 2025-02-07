@@ -78,7 +78,8 @@ bool UiEngine::useNativeMenuBar() const
     return true;
 #else
     // Since Qt 6.8, Qt Quick Controls menu bar is native
-    return false;
+    // However, it's currently broken, so use our native menu bar
+    return /*false*/ true;
 #endif
 #elif defined(Q_OS_LINUX)
     const QDBusConnection connection = QDBusConnection::sessionBus();
