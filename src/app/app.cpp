@@ -36,6 +36,10 @@ int App::run(int argc, char **argv)
     QCoreApplication::setApplicationName("ScratchCPP Player");
     QCoreApplication::setApplicationVersion(BUILD_VERSION);
 
+#ifdef Q_OS_MACOS
+    // Disable native menu bar on macOS
+    app.setAttribute(Qt::AA_DontUseNativeMenuBar);
+#endif
     // Set style and icon theme name
     QQuickStyle::setStyle("Material");
     QIcon::setThemeName("scratchcpp");
