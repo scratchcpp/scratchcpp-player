@@ -224,6 +224,61 @@ jobs:
         name: build-windows
         path: '*installer.exe'
 
+  build-macos-release:
+    runs-on: macos-14
+    strategy:
+      matrix:
+        os: [macos-14]
+        qt-version: ['6.8']
+        qt-target: ['desktop']
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        submodules: 'recursive'
+    - name: Setup environment
+      run: |
+        sed -i -e '/^#/d' .github/config.env
+        sed -i -e '/^$/d' .github/config.env
+        cat .github/config.env >> "${GITHUB_ENV}"
+      shell: bash
+    - name: Set up node.js
+      uses: actions/setup-node@v3
+    - if: env.build_on_new_tags != 1
+      name: Cancel if build on new tags is disabled
+      uses: andymckay/cancel-action@0.2
+    - name: Get version
+      run: |
+        brew install grep
+        version=$(LC_ALL=en_US.utf8 ggrep -oP 'project\([^)]*\s+VERSION\s+\K[0-9]+\.[0-9]+\.[0-9]+' CMakeLists.txt)
+        echo "Project version: $version"
+        echo previous_tag=$version >> "${GITHUB_ENV}"
+      shell: bash
+    - if: contains(github.ref, '-')
+      name: Check if this is a pre-release
+      run: echo is_prerelease=1 >> "${GITHUB_ENV}"
+      shell: bash
+    - name: Set up node.js
+      uses: actions/setup-node@v3
+    # Install Qt
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v3
+      with:
+        version: ${{ matrix.qt-version }}
+        host: 'mac'
+        target: ${{ matrix.qt-target }}
+        modules: ''
+    # Build
+    - name: Build
+      run: .ci/macos_build.sh
+      shell: bash
+    # Upload
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-Qt-${{ matrix.qt-version }}
+        path: '*.dmg'
+
   # Release
   release:
     runs-on: ubuntu-latest
@@ -275,8 +330,7 @@ jobs:
       name: Create release
       uses: ncipollo/release-action@v1
       with:
-        #artifacts: "build-windows/*.exe,build-linux-*/*.AppImage,build-linux-*/*.zsync,build-macos/*.dmg"
-        artifacts: "build-windows/*.exe,build-linux-*/*.AppImage,build-linux-*/*.zsync"
+        artifacts: "build-windows/*.exe,build-linux-*/*.AppImage,build-linux-*/*.zsync,build-macos/*.dmg"
         name: "${{ env.app_name }} ${{ env.version }}"
         owner: ${{ github.event.pusher.name }}
         draft: true
