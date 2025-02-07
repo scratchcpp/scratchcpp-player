@@ -24,7 +24,13 @@ echo "Target architecture: ${target_arch} (${BUILD_ARCH_NAME})"
 # Clone Qt
 git clone https://github.com/qt/qt5 qt || exit 1
 cd qt
-git checkout $(git tag | grep '^v6\.8\.[0-9]*$' | sort -V | tail -n 1) || exit 1
+
+if [[ `grep -o '\.' <<<"$qt_version" | grep -c .` == "1" ]]; then
+    git checkout $(git tag | grep "^v${qt_version}.[0-9]*$" | sort -V | tail -n 1) || exit 1
+else
+    git checkout "v${qt_version}"
+fi
+
 ./init-repository --module-subset=qtbase,qttools,qtdeclarative,qtsvg${qt_modules} || exit 1
 
 # Build Qt (host)
