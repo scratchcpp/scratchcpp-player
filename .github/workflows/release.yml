@@ -14,7 +14,7 @@ jobs:
             qt-target: 'desktop'
             qt-modules: ''
             arch: 'amd64'
-          - qt-version: '6.8'
+          - qt-version: '6.8.1'
             qt-target: 'desktop'
             qt-modules: 'qtshadertools'
             arch: 'aarch64'
