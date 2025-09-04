@@ -15,7 +15,7 @@ jobs:
         qt-version: ['6.8']
         qt-target: ['desktop']
         qt-modules: ['']
-        mingw-version: ['11.2.0']
+        mingw-version: ['13.2.0']
     steps:
     - uses: actions/checkout@v3
       with:
