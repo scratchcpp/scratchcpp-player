@@ -82,7 +82,7 @@ jobs:
     - if: "!contains(matrix.arch, 'amd64')"
       name: Restore cross-compiled Qt from cache
       id: restore-qt-cross
-      uses: jlanga/cache/restore@remove-files
+      uses: actions/cache/restore@v4
       with:
         path: ./qt-cross/
         key: qt-cross-${{ runner.os }}-${{ matrix.qt-version }}-${{ matrix.qt-target }}-${{ matrix.qt-modules }}-${{ matrix.arch }}
@@ -99,15 +99,19 @@ jobs:
       shell: bash
       run: .ci/build_qt6.sh "${{ matrix.qt-version }}" "${{ matrix.qt-modules }}" "${{ matrix.arch }}"
     - if: "!contains(matrix.arch, 'amd64') && steps.restore-qt-cross.outputs.cache-hit != 'true'"
-      name: Cache and remove cross-compiled Qt
+      name: Cache cross-compiled Qt
       id: cache-qt-cross
-      uses: jlanga/cache/save@remove-files
+      uses: actions/cache/save@v4
       with:
         path: ./qt-cross/
         key: qt-cross-${{ runner.os }}-${{ matrix.qt-version }}-${{ matrix.qt-target }}-${{ matrix.qt-modules }}-${{ matrix.arch }}
+    - if: "!contains(matrix.arch, 'amd64')"
+      name: Remove cross-compiled Qt
+      run: rm -rf qt-cross
+      shell: bash
     - if: "!contains(matrix.arch, 'amd64') && steps.restore-qt-cross.outputs.cache-hit != 'true'"
       name: Restore cross-compiled Qt from cache
-      uses: jlanga/cache/restore@remove-files
+      uses: actions/cache/restore@v4
       with:
         path: ./qt-cross/
         key: qt-cross-${{ runner.os }}-${{ matrix.qt-version }}-${{ matrix.qt-target }}-${{ matrix.qt-modules }}-${{ matrix.arch }}
