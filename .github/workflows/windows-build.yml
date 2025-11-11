@@ -57,15 +57,15 @@ jobs:
         version: ${{ matrix.mingw-version }}
     ## Build
     - name: Windows build
-      run: .ci/common/build.sh win_build win64
+      run: .ci/common/build.sh 'D:/w' win64
       shell: bash
     - name: Deploy
       run: |
         mkdir win_release
-        for /r win_build %%f in (${{ env.executable_name }}.exe) do @move "%%f" win_release
-        for /r win_build %%f in (*.dll) do @move "%%f" win_release
+        for /r D:\w %%f in (${{ env.executable_name }}.exe) do @move "%%f" win_release
+        for /r D:\w %%f in (*.dll) do @move "%%f" win_release
         cd win_release
-        windeployqt ${{ env.executable_name }}.exe --qmldir ..\win_build\src || exit 5
+        windeployqt ${{ env.executable_name }}.exe --qmldir D:\w\src || exit 5
       shell: cmd
     - name: Copy libraries
       run: |
