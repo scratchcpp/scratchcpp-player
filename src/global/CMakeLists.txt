@@ -22,8 +22,8 @@ include(${PROJECT_SOURCE_DIR}/build/module.cmake)
 
 include(FetchContent)
 FetchContent_Declare(cmake_git_version_tracking
-  GIT_REPOSITORY https://github.com/andrew-hardin/cmake-git-version-tracking.git
-  GIT_TAG 904dbda1336ba4b9a1415a68d5f203f576b696bb
+  GIT_REPOSITORY https://github.com/scratchcpp/cmake-git-version-tracking.git
+  GIT_TAG 3b515dbcd4edccc79d6c63e9a23cf2289ba9f098
 )
 FetchContent_MakeAvailable(cmake_git_version_tracking)
 
