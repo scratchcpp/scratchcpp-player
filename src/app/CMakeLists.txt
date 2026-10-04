@@ -50,4 +50,4 @@ target_link_libraries(${APP_TARGET} PRIVATE ${QT_LIBS})
 target_include_directories(${APP_TARGET} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/..)
 target_include_directories(${APP_TARGET} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../global)
 
-target_link_libraries(${APP_TARGET} PRIVATE scratchcpp-render scratchcpp-renderplugin)
+target_link_libraries(${APP_TARGET} PRIVATE scratchcpp scratchcpp-render)
