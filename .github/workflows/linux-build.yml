@@ -97,7 +97,7 @@ jobs:
       name: Remove cross-compiled Qt
       run: rm -rf qt-cross
       shell: bash
-    - if: "!contains(matrix.arch, 'amd64') && steps.restore-qt-cross.outputs.cache-hit != 'true'"
+    - if: "!contains(matrix.arch, 'amd64')"
       name: Restore cross-compiled Qt from cache
       uses: actions/cache/restore@v4
       with:
