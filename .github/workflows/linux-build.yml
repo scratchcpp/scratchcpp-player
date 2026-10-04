@@ -110,7 +110,7 @@ jobs:
       with:
         version: "19.1.0"
         env: false
-        directory: ${{ runner.temp }}/llvm # get this from $LLVM_PATH
+        directory: ${{ github.workspace }}/../llvm-native # get this from $LLVM_PATH
     ## Build
     - name: Build AppImage
       run: .ci/build_appimage.sh ${{ matrix.arch }}
