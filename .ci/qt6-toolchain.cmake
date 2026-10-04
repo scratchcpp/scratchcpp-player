@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.18)
 include_guard(GLOBAL)
 
 set(CMAKE_SYSTEM_NAME Linux)
-set(CMAKE_SYSTEM_PROCESSOR arm)
+set(CMAKE_SYSTEM_PROCESSOR aarch64) # We don't support 32-bit anymore, so we don't need to read this from a variable
 
 set(TARGET_SYSROOT $ENV{BUILD_SYSROOT_PATH})
 set(CMAKE_SYSROOT ${TARGET_SYSROOT})
