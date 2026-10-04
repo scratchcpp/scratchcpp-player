@@ -103,6 +103,14 @@ jobs:
       with:
         path: ./qt-cross/
         key: qt-cross-${{ runner.os }}-${{ matrix.qt-version }}-${{ matrix.qt-target }}-${{ matrix.qt-modules }}-${{ matrix.arch }}
+    ## Install LLVM (for host build tools)
+    - if: "!contains(matrix.arch, 'amd64')"
+      name: Install LLVM
+      uses: KyleMayes/install-llvm-action@v2
+      with:
+        version: "19.1.0"
+        env: false
+        directory: ${{ runner.temp }}/llvm # get this from $LLVM_PATH
     ## Build
     - name: Build AppImage
       run: .ci/build_appimage.sh ${{ matrix.arch }}
