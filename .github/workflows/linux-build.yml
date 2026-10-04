@@ -42,6 +42,20 @@ jobs:
         sed -i -e '/^$/d' .github/config.env
         cat .github/config.env >> "${GITHUB_ENV}"
       shell: bash
+    ## Install LLVM (for host build tools)
+    - if: "!contains(matrix.arch, 'amd64')"
+      name: Prepare large temp
+      run: |
+        mkdir -p "$GITHUB_WORKSPACE/tmp"
+        echo "RUNNER_TEMP=$GITHUB_WORKSPACE/tmp" >> "$GITHUB_ENV"
+    - if: "!contains(matrix.arch, 'amd64')"
+      name: Install LLVM
+      uses: KyleMayes/install-llvm-action@v2
+      with:
+        version: "19.1.0"
+        env: false
+        directory: ${{ github.workspace }}/../llvm-native # get this from $LLVM_PATH
+    ## Install dependencies
     - if: contains(matrix.arch, 'amd64')
       name: Install dependencies
       run: |
@@ -103,14 +117,6 @@ jobs:
       with:
         path: ./qt-cross/
         key: qt-cross-${{ runner.os }}-${{ matrix.qt-version }}-${{ matrix.qt-target }}-${{ matrix.qt-modules }}-${{ matrix.arch }}
-    ## Install LLVM (for host build tools)
-    - if: "!contains(matrix.arch, 'amd64')"
-      name: Install LLVM
-      uses: KyleMayes/install-llvm-action@v2
-      with:
-        version: "19.1.0"
-        env: false
-        directory: ${{ github.workspace }}/../llvm-native # get this from $LLVM_PATH
     ## Build
     - name: Build AppImage
       run: .ci/build_appimage.sh ${{ matrix.arch }}
