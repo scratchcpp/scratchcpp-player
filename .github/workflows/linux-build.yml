@@ -93,11 +93,11 @@ jobs:
       with:
         path: ./qt-cross/
         key: qt-cross-${{ runner.os }}-${{ matrix.qt-version }}-${{ matrix.qt-target }}-${{ matrix.qt-modules }}-${{ matrix.arch }}
-    - if: "!contains(matrix.arch, 'amd64')"
+    - if: "!contains(matrix.arch, 'amd64') && steps.restore-qt-cross.outputs.cache-hit != 'true'"
       name: Remove cross-compiled Qt
       run: rm -rf qt-cross
       shell: bash
-    - if: "!contains(matrix.arch, 'amd64')"
+    - if: "!contains(matrix.arch, 'amd64') && steps.restore-qt-cross.outputs.cache-hit != 'true'"
       name: Restore cross-compiled Qt from cache
       uses: actions/cache/restore@v4
       with:
