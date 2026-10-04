@@ -24,6 +24,9 @@ toolchain_prefix="${toolchain_name}-"
 echo "Target architecture: ${target_arch} (${target_arch_name})"
 
 # Install dependencies
+sudo apt autoremove -y
+sudo apt clean
+df -h
 ${root_path}/.ci/install_cross_compiler.sh "${target_arch}" || exit 1
 sudo apt install -y qemu-user-static || exit 1
 
