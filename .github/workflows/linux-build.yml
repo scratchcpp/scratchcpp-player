@@ -42,12 +42,6 @@ jobs:
         sed -i -e '/^$/d' .github/config.env
         cat .github/config.env >> "${GITHUB_ENV}"
       shell: bash
-    ## Install LLVM (for host build tools)
-    - if: "!contains(matrix.arch, 'amd64')"
-      name: Setup LLVM
-      uses: ZhongRuoyu/setup-llvm@v0
-      with:
-        llvm-version: 19
     ## Install dependencies
     - if: contains(matrix.arch, 'amd64')
       name: Install dependencies
