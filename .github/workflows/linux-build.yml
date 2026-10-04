@@ -25,8 +25,8 @@ jobs:
     - name: Maximize build space
       uses: easimon/maximize-build-space@master
       with:
-        root-reserve-mb: 512
-        swap-size-mb: 1024
+        root-reserve-mb: 2048
+        swap-size-mb: 256
         remove-dotnet: true
         remove-android: true
         remove-haskell: true
@@ -44,17 +44,10 @@ jobs:
       shell: bash
     ## Install LLVM (for host build tools)
     - if: "!contains(matrix.arch, 'amd64')"
-      name: Prepare large temp
-      run: |
-        mkdir -p "$GITHUB_WORKSPACE/tmp"
-        echo "RUNNER_TEMP=$GITHUB_WORKSPACE/tmp" >> "$GITHUB_ENV"
-    - if: "!contains(matrix.arch, 'amd64')"
-      name: Install LLVM
-      uses: KyleMayes/install-llvm-action@v2
+      name: Setup LLVM
+      uses: ZhongRuoyu/setup-llvm@v0
       with:
-        version: "19.1.0"
-        env: false
-        directory: ${{ github.workspace }}/../llvm-native # get this from $LLVM_PATH
+        llvm-version: 19
     ## Install dependencies
     - if: contains(matrix.arch, 'amd64')
       name: Install dependencies
