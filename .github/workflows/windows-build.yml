@@ -50,7 +50,7 @@ jobs:
         echo ${pwd}/../Tools/QtInstallerFramework/*/bin >> "${GITHUB_PATH}"
       shell: bash
     - name: Install MinGW
-      uses: egor-tensin/setup-mingw@v2
+      uses: egor-tensin/setup-mingw@v3
       with:
         platform: x64
         static: 0
